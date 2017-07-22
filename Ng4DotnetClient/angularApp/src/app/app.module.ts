@@ -5,7 +5,8 @@ import { AccordionModule } from 'primeng/components/accordion/accordion';
 import { MenuItem } from 'primeng/components/common/api';
 
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './app.routing.module';
+import { AppConfig } from './app.config';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [AppConfig],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

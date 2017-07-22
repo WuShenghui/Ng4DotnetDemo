@@ -5,9 +5,9 @@ import { NgModule } from '@angular/core';
   imports: [
     RouterModule.forRoot([
       // { path: '', component: HomeComponent },
-      // { path: 'setup', loadChildren: './components/setup/setup.module#SetupModule' },
+      { path: 'crud', loadChildren: './crud-demo/crud-demo.module#CrudDemoModule' },
     ])
   ],
-  exports:  [RouterModule]
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -39,13 +39,13 @@
 
     <div id="layout-sidebar" [ngClass]="{'active': menuActive}">
         <div class="layout-menu">
-            <a id="menu_file" #filemenutitle [class.active-menuitem]="filemenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === filemenutitle.id ? null : filemenutitle.id)">
+            <a id="menu_crud" #crudmenutitle [class.active-menuitem]="crudmenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === crudmenutitle.id ? null : crudmenutitle.id)">
                 <img src="assets/images/icons/file-active.svg" class="layout-menu-icon-active" />
                 <img src="assets/images/icons/file.svg" class="layout-menu-icon-inactive" />
-                <span>File</span>
+                <span>crud</span>
             </a>
-            <div [ngClass]="{'submenushow': (filemenutitle.id == activeMenuId), 'submenuhide': (filemenutitle.id != activeMenuId)}">
-                <a [routerLink]="['/fileupload']" (click)="menuActive = false">&#9679; Upload</a>
+            <div [ngClass]="{'submenushow': (crudmenutitle.id == activeMenuId), 'submenuhide': (crudmenutitle.id != activeMenuId)}">
+                <a [routerLink]="['/crud']" (click)="menuActive = false">&#9679; List</a>
             </div>
         </div>
     </div>
