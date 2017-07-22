@@ -1,0 +1,51 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/Ng4DotnetClient/angularApp/dist
+/Ng4DotnetClient/angularApp/tmp
+/Ng4DotnetClient/angularApp/out-tsc
+
+# dependencies
+/Ng4DotnetClient/angularApp/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vs/*
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/Ng4DotnetClient/angularApp/.sass-cache
+/Ng4DotnetClient/angularApp/connect.lock
+/Ng4DotnetClient/angularApp/coverage
+/Ng4DotnetClient/angularApp/libpeerconnection.log
+npm-debug.log
+testem.log
+/Ng4DotnetClient/angularApp/typings
+
+# e2e
+/Ng4DotnetClient/angularApp/e2e/*.js
+/Ng4DotnetClient/angularApp/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# bin
+/Ng4DotnetClient/bin
+/Ng4DotnetServer/bin
+
+# obj
+/Ng4DotnetClient/obj
+/Ng4DotnetServer/obj
