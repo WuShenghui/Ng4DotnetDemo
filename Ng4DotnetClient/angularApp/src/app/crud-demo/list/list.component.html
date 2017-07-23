@@ -1,6 +1,29 @@
-<p>
-    list works!
-</p>
+<div class="content-section content-section-body">
+    <p-panel header="List">
+        <a pButton type="button" [routerLink]="['form', '0']" label="New" icon="fa-plus"></a>
+        <button pButton type="button" label="Edit" icon="fa-edit"></button>
 
-<button type="button" (click)="getData()">Get Data</button>
-<p>{{data}}</p>
+        <div style="margin-top:20px;">
+            <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input #gb type="text" pInputText size="50" placeholder="Global Filter">
+            </div>
+            <p-dataTable #dt [value]="data.items" [rows]="10" [globalFilter]="gb" [(selection)]="selectedCars2" scrollable="true" scrollHeight="400px" frozenWidth="400px" unfrozenWidth="580px">
+                <p-column [style]="{'width':'38px'}" selectionMode="multiple" frozen="true"></p-column>
+                <p-column field="id" header="Id" frozen="true" [style]="{'width':'38px'}"></p-column>
+                <p-column field="content" header="Content" frozen="true" [style]="{'width':'250px'}"></p-column>
+                <p-column field="createdDate" header="Date" [style]="{'width':'120px'}">
+                    <ng-template let-col let-item="rowData" pTemplate="body">
+                        {{item[col.field] | date:"yyyy-MM-dd" }}
+                    </ng-template>
+                </p-column>
+                <p-column field="type" header="Type" [style]="{'width':'50px'}"></p-column>
+                <p-column field="email" header="Email" [style]="{'width':'150px'}"></p-column>
+                <p-column field="count" header="Count" [style]="{'width':'60px'}"></p-column>
+                <p-column field="activated" header="Activate" [style]="{'width':'80px'}"></p-column>
+                <p-column field="languages" header="Languages" [style]="{'width':'250px'}"></p-column>
+            </p-dataTable>
+            <p-paginator rows="10" totalRecords="data.totalCount" [rowsPerPageOptions]="[10,20,30]"></p-paginator>
+        </div>
+    </p-panel>
+</div>

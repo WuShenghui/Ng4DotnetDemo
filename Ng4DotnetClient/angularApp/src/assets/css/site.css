@@ -288,7 +288,7 @@ body {
 }
 
 #layout-sidebar .layout-menu>div a {
-    width: 50%;
+    width: 100%;
     float: left;
     padding: 6px;
     box-sizing: border-box;
@@ -338,6 +338,10 @@ body {
     color: #ffffff;
 }
 
+.content-section.content-section-body {
+    min-height: 520px
+}
+
 .content-section:first-of-type>div>span {
     line-height: 1.5em;
 }
@@ -353,6 +357,10 @@ body {
 }
 
 .layout-footer {
+    position: absolute;
+    bottom: 0;
+    width: 74%;
+    margin: 0 3px;
     font-size: 14px;
     color: #84939f;
 }

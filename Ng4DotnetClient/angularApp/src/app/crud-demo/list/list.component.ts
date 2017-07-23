@@ -1,25 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 
 import { RESTService } from '../../core/rest.service';
+import { PagedResults } from '../../share/paged-results';
+import { CrudModel } from '../crud.model';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css'],
-  providers: [RESTService]
+  styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  data: any;
+  data: PagedResults<CrudModel[]>;
 
   constructor(private http: RESTService) { }
 
   ngOnInit() {
+    this.getData();
   }
 
   getData() {
-    console.log('geting data...');
-    this.http.getList('values', {
-      sort: ''
-    }).subscribe(response => { this.data = response; });
+    // console.log('geting data...');
+    // this.http.getList('values', {
+    //   sort: ''
+    // }).subscribe(response => { this.data = response; });
+
+    this.data = {
+      totalCount: 20,
+      items: [
+        { id: 1, content: 'content...', createdDate: new Date('2017/07/23 17:40'), type: 1, email: "test@email.com", count: 20, activated: true, languages: ['en-us', 'en-us'] },
+        { id: 2, content: 'content...', createdDate: new Date('2017/07/23 17:40'), type: 1, email: "test@email.com", count: 20, activated: true, languages: ['en-us', 'en-us'] },
+        { id: 3, content: 'content...', createdDate: new Date('2017/07/23 17:40'), type: 1, email: "test@email.com", count: 20, activated: true, languages: ['en-us', 'en-us'] },
+        { id: 4, content: 'content...', createdDate: new Date('2017/07/23 17:40'), type: 1, email: "test@email.com", count: 20, activated: true, languages: ['en-us', 'en-us'] },
+        { id: 5, content: 'content...', createdDate: new Date('2017/07/23 17:40'), type: 1, email: "test@email.com", count: 20, activated: true, languages: ['en-us', 'en-us'] },
+        { id: 6, content: 'content...', createdDate: new Date('2017/07/23 17:40'), type: 1, email: "test@email.com", count: 20, activated: true, languages: ['en-us', 'en-us'] },
+        { id: 7, content: 'content...', createdDate: new Date('2017/07/23 17:40'), type: 1, email: "test@email.com", count: 20, activated: true, languages: ['en-us', 'en-us'] },
+        { id: 8, content: 'content...', createdDate: new Date('2017/07/23 17:40'), type: 1, email: "test@email.com", count: 20, activated: true, languages: ['en-us', 'en-us'] },
+      ]
+    };
   }
 }
