@@ -49,3 +49,7 @@ Thumbs.db
 # obj
 /Ng4DotnetClient/obj
 /Ng4DotnetServer/obj
+
+# wwwroot
+/Ng4DotnetClient/wwwroot
+/Ng4DotnetServer/wwwroot

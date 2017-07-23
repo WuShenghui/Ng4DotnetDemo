@@ -17,6 +17,7 @@ export class ListComponent implements OnInit {
   }
 
   getData() {
+    console.log('geting data...');
     this.http.getList('values', {
       sort: ''
     }).subscribe(response => { this.data = response; });
