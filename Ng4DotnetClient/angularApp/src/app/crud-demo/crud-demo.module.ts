@@ -19,7 +19,7 @@ import { CoreModule } from '../core/core.module';
 import { CrudRoutingModule } from './crud-demo.routing.module';
 import { ListComponent } from './list/list.component';
 import { FormComponent } from './form/form.component';
-import { RESTService } from '../core/rest.service';
+import { CrudService } from './crud.service';
 
 @NgModule({
   imports: [
@@ -39,6 +39,6 @@ import { RESTService } from '../core/rest.service';
     CrudRoutingModule
   ],
   declarations: [ListComponent, FormComponent],
-  providers: [RESTService]
+  providers: [CrudService]
 })
 export class CrudDemoModule { }

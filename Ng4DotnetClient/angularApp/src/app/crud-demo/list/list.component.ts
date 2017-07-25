@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { RESTService } from '../../core/rest.service';
 import { PagedResults } from '../../share/paged-results';
 import { CrudModel } from '../crud.model';
 import { PageList } from '../../share/page-list';
+import { CrudService } from '../crud.service';
 
 @Component({
   selector: 'app-list',
@@ -13,7 +13,7 @@ import { PageList } from '../../share/page-list';
 export class ListComponent extends PageList implements OnInit {
   data: PagedResults<CrudModel[]>;
 
-  constructor(private http: RESTService) {
+  constructor(private http: CrudService) {
     super();
     this.data = {
       totalCount: 8,
