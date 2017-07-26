@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { CrudModel } from '../crud.model';
-import { RESTService } from '../../core/rest.service';
+import { CrudService } from '../crud.service';
 import { SelectItem } from "primeng/components/common/selectitem";
 
 @Component({
@@ -30,7 +30,7 @@ export class FormComponent implements OnInit {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private dataService: RESTService) {
+    private dataService: CrudService) {
     this.types = [
       { label: 'Audi', value: 'Audi' },
       { label: 'BMW', value: 'BMW' },
@@ -48,39 +48,39 @@ export class FormComponent implements OnInit {
   }
 
   getCrudModel(id: string) {
-    this.dataService.getById(id, 'crud')
-      .subscribe((model: CrudModel) => {
-        this.model = model;
-      },
-      (err: any) => console.log(err));
+    // this.dataService.getById(id, 'crud')
+    //   .subscribe((model: CrudModel) => {
+    //     this.model = model;
+    //   },
+    //   (err: any) => console.log(err));
   }
 
   submit() {
 
     if (this.model.id) {
 
-      this.dataService.update(this.model, 'crud')
-        .subscribe((model: CrudModel) => {
-          if (model) {
-            this.router.navigate(['/crud']);
-          } else {
-            this.errorMessage = 'Unable to save model';
-          }
-        },
-        (err: any) => console.log(err));
+      // this.dataService.update(this.model, 'crud')
+      //   .subscribe((model: CrudModel) => {
+      //     if (model) {
+      //       this.router.navigate(['/crud']);
+      //     } else {
+      //       this.errorMessage = 'Unable to save model';
+      //     }
+      //   },
+      //   (err: any) => console.log(err));
 
     } else {
 
-      this.dataService.add(this.model, 'crud')
-        .subscribe((model: CrudModel) => {
-          if (model) {
-            this.router.navigate(['/crud']);
-          }
-          else {
-            this.errorMessage = 'Unable to add model';
-          }
-        },
-        (err: any) => console.log(err));
+      // this.dataService.add(this.model, 'crud')
+      //   .subscribe((model: CrudModel) => {
+      //     if (model) {
+      //       this.router.navigate(['/crud']);
+      //     }
+      //     else {
+      //       this.errorMessage = 'Unable to add model';
+      //     }
+      //   },
+      //   (err: any) => console.log(err));
 
     }
   }

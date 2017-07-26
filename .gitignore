@@ -53,3 +53,6 @@ Thumbs.db
 # wwwroot
 /Ng4DotnetClient/wwwroot
 /Ng4DotnetServer/wwwroot
+
+# db
+/Ng4DotnetServer/Ng4DotNet.db3

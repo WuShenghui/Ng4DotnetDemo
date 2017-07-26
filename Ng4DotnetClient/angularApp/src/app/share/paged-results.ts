@@ -1,4 +1,4 @@
-export interface PagedResults<T> {
-    totalCount: number;
-    items: T;
+export class PagedResults<T> {
+   public totalCount: number;
+   public items: T[];
 }

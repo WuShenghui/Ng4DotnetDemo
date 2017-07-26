@@ -8,15 +8,8 @@ namespace Ng4DotnetServer.Repository
     {
         public DbSet<Crud> CrudList { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = "Ng4DotNet.db" };
-            var connectionString = connectionStringBuilder.ToString();
-            var connection = new SqliteConnection(connectionString);
-
-            optionsBuilder.UseSqlite(connection);
-        }
-
+        public Ng4DotNetDbContext(DbContextOptions<Ng4DotNetDbContext> options) : base(options) { }
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Crud>().HasKey(m => m.Id);

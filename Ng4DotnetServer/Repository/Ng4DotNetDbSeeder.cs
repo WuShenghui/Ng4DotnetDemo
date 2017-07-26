@@ -35,16 +35,6 @@ namespace Ng4DotnetServer.Repository
 
         public async Task InsertCrudSampleData(Ng4DotNetDbContext db)
         {
-            try
-            {
-                int numAffected = await db.SaveChangesAsync();
-                _Logger.LogInformation(@"Saved {numAffected} states");
-            }
-            catch (Exception exp)
-            {
-                _Logger.LogError($"Error in {nameof(Ng4DotNetDbSeeder)}: " + exp.Message);
-                throw;
-            }
 
             var crudList = GetCrudList();
             db.CrudList.AddRange(crudList);

@@ -18,11 +18,6 @@ namespace Ng4DotnetServer
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            using (var db = new Ng4DotNetDbContext())
-            {
-                db.Database.EnsureCreated();
-                db.Database.Migrate();
-            }
 
             Configuration = builder.Build();
         }
@@ -41,20 +36,28 @@ namespace Ng4DotnetServer
 
             // Add framework services.
             services.AddMvc();
+            services.AddScoped<ICrudRepository, CrudRepository>();
+            services.AddTransient<Ng4DotNetDbSeeder>();
 
-            var connection = Configuration["Production:SqliteConnectionString"];
-            services.AddEntityFrameworkSqlite()
-                .AddDbContext<Ng4DotNetDbContext>();
+            services.AddDbContext<Ng4DotNetDbContext>(options => {
+                options.UseSqlite(
+                    Configuration.GetConnectionString("SqliteConnectionString"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(
+            IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            ILoggerFactory loggerFactory,
+            Ng4DotNetDbSeeder ng4DotNetDbSeeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseCors("corsGlobalPolicy");
             app.UseMvc();
+            ng4DotNetDbSeeder.SeedAsync(app.ApplicationServices).Wait();
         }
     }
 }
