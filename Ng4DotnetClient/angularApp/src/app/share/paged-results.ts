@@ -1,4 +1,4 @@
 export class PagedResults<T> {
-   public totalCount: number;
-   public items: T[];
+  public totalCount: number;
+  public items: T[];
 }

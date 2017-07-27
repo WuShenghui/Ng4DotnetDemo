@@ -22,14 +22,12 @@ namespace Ng4DotnetServer.Repository
 
         public async Task<List<Crud>> GetAsync()
         {
-            return await _context.CrudList.OrderBy(c => c.Id)
-                                 .Include(c => c.Languages).ToListAsync();
+            return await _context.CrudList.OrderBy(c => c.Id).ToListAsync();
         }
 
         public async Task<Crud> GetByIdAsync(int id)
         {
             return await _context.CrudList
-                                 .Include(c => c.Id)
                                  .SingleOrDefaultAsync(c => c.Id == id);
         }
 
@@ -38,7 +36,6 @@ namespace Ng4DotnetServer.Repository
             var totalRecords = await _context.CrudList.CountAsync();
             var items = await _context.CrudList
                                  .OrderBy(c => c.Id)
-                                 .Include(c => c.Languages)
                                  .Skip(skip)
                                  .Take(take)
                                  .ToListAsync();

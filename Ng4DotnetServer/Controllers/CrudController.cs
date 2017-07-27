@@ -37,16 +37,18 @@ namespace Ng4DotnetServer.Controllers
             }
         }
 
-        // GET api/crud/page/10/10
-        [HttpGet("page/{skip}/{take}")]
+        // GET api/crud/page?skip=10&take=10
+        [HttpGet("page")]
         [ProducesResponseType(typeof(List<Crud>), 200)]
-        public async Task<ActionResult> GetPage(int skip, int take)
+        public async Task<ActionResult> GetPage([FromQuery]int skip, [FromQuery]int take)
         {
             try
             {
                 var pagingResult = await _crudRepository.GetPageAsync(skip, take);
-                Response.Headers.Add("X-InlineCount", pagingResult.TotalCount.ToString());
-                return Ok(pagingResult.Items);
+                return Ok(pagingResult);
+
+                //Response.Headers.Add("X-InlineCount", pagingResult.TotalCount.ToString());
+                //return Ok(pagingResult.Items);
             }
             catch (Exception exp)
             {

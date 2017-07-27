@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { AppConfig } from '../app.config';
@@ -15,7 +15,7 @@ export class CrudService {
   public getPagedList(req?: any): Observable<PagedResults<CrudModel>> {
     const options = createRequestOption(req);
     return this.http.get<PagedResults<CrudModel>>(
-      `${this.config.apiUrl}/page`,
+      `${this.config.apiUrl}/crud/page`,
       { params: options });
   }
 }

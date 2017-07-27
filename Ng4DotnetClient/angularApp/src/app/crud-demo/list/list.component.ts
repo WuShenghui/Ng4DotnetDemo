@@ -26,11 +26,11 @@ export class ListComponent extends PageList implements OnInit {
   }
 
   onPageLoad() {
-    console.log(`page: ${this.page}, size: ${this.size}`);
+    console.log(`page: ${this.skip}, size: ${this.take}`);
 
     this.http.getPagedList({
-      page: this.page,
-      size: this.size,
+      skip: this.skip,
+      take: this.take,
       sort: '',
       query: ''
     }).subscribe(response => { this.data = response; });

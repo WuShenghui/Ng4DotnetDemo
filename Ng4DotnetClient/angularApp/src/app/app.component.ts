@@ -23,7 +23,7 @@ export class AppComponent {
   activeMenuId: string;
 
   changeTheme(event: Event, theme: string) {
-    let themeLink: HTMLLinkElement = <HTMLLinkElement>document.getElementById('theme-css');
+    const themeLink: HTMLLinkElement = <HTMLLinkElement>document.getElementById('theme-css');
     themeLink.href = 'assets/components/themes/' + theme + '/theme.css';
     event.preventDefault();
   }

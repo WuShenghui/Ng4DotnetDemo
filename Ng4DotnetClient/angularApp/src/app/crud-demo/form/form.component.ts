@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { CrudModel } from '../crud.model';
 import { CrudService } from '../crud.service';
-import { SelectItem } from "primeng/components/common/selectitem";
+import { SelectItem } from 'primeng/components/common/selectitem';
 
 @Component({
   selector: 'app-form',
@@ -26,7 +26,7 @@ export class FormComponent implements OnInit {
 
   errorMessage: string;
   deleteMessageEnabled: boolean;
-  operationText: string = 'Insert';
+  operationText = 'Insert';
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -35,11 +35,11 @@ export class FormComponent implements OnInit {
       { label: 'Audi', value: 'Audi' },
       { label: 'BMW', value: 'BMW' },
       { label: 'Fiat', value: 'Fiat' }
-    ]
+    ];
   }
 
   ngOnInit() {
-    let id = this.route.snapshot.params['id'];
+    const id = this.route.snapshot.params['id'];
     if (id !== '0') {
       this.operationText = 'Update';
       this.getCrudModel(id);
