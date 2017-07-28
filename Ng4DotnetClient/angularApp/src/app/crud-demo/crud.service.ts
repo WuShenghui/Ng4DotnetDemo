@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { AppConfig } from '../app.config';
@@ -17,5 +17,21 @@ export class CrudService {
     return this.http.get<PagedResults<CrudModel>>(
       `${this.config.apiUrl}/crud/page`,
       { params: options });
+  }
+
+  public getById(id: string): Observable<CrudModel> {
+    return this.http.get<CrudModel>(`${this.config.apiUrl}/crud?id=${id}`);
+  }
+
+  public add(model: CrudModel): Observable<CrudModel> {
+    return this.http.post<CrudModel>(`${this.config.apiUrl}/crud`, model);
+  }
+
+  public update(model: CrudModel): Observable<CrudModel> {
+    return this.http.put<CrudModel>(`${this.config.apiUrl}/crud`, model);
+  }
+
+  public delete(id: string): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.config.apiUrl}/crud/${id}`);
   }
 }

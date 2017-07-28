@@ -12,16 +12,17 @@ import { SelectItem } from 'primeng/components/common/selectitem';
 })
 export class FormComponent implements OnInit {
 
+  selectedLanguages: string[];
   types: SelectItem[];
   model: CrudModel = {
     id: 0,
     content: '',
-    createdDate: new Date(),
+    date: new Date(),
     type: 0,
     email: '',
     count: 0,
     activated: false,
-    languages: []
+    languages: ''
   };
 
   errorMessage: string;
@@ -48,39 +49,38 @@ export class FormComponent implements OnInit {
   }
 
   getCrudModel(id: string) {
-    // this.dataService.getById(id, 'crud')
-    //   .subscribe((model: CrudModel) => {
-    //     this.model = model;
-    //   },
-    //   (err: any) => console.log(err));
+    this.dataService.getById(id)
+      .subscribe((model: CrudModel) => {
+        this.model = model;
+      },
+      (err: any) => console.log(err));
   }
 
   submit() {
 
     if (this.model.id) {
 
-      // this.dataService.update(this.model, 'crud')
-      //   .subscribe((model: CrudModel) => {
-      //     if (model) {
-      //       this.router.navigate(['/crud']);
-      //     } else {
-      //       this.errorMessage = 'Unable to save model';
-      //     }
-      //   },
-      //   (err: any) => console.log(err));
+      this.dataService.update(this.model)
+        .subscribe((model: CrudModel) => {
+          if (model) {
+            this.router.navigate(['/crud']);
+          } else {
+            this.errorMessage = 'Unable to save model';
+          }
+        },
+        (err: any) => console.log(err));
 
     } else {
 
-      // this.dataService.add(this.model, 'crud')
-      //   .subscribe((model: CrudModel) => {
-      //     if (model) {
-      //       this.router.navigate(['/crud']);
-      //     }
-      //     else {
-      //       this.errorMessage = 'Unable to add model';
-      //     }
-      //   },
-      //   (err: any) => console.log(err));
+      this.dataService.add(this.model)
+        .subscribe((model: CrudModel) => {
+          if (model) {
+            this.router.navigate(['/crud']);
+          } else {
+            this.errorMessage = 'Unable to add model';
+          }
+        },
+        (err: any) => console.log(err));
 
     }
   }

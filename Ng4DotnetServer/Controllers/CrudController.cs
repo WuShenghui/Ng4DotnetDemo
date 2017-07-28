@@ -76,7 +76,7 @@ namespace Ng4DotnetServer.Controllers
 
         // POST api/crud
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([FromBody]Crud model)
         {
             if (!ModelState.IsValid)
@@ -103,7 +103,7 @@ namespace Ng4DotnetServer.Controllers
 
         // PUT api/crud/5
         [HttpPut("{id}")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Update(int id, [FromBody]Crud model)
         {
             if (!ModelState.IsValid)
@@ -129,7 +129,7 @@ namespace Ng4DotnetServer.Controllers
 
         // DELETE api/crud/5
         [HttpDelete("{id}")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id)
         {
             try

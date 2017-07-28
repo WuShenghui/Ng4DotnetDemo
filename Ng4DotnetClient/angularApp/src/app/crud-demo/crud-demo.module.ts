@@ -11,7 +11,9 @@ import {
   ButtonModule,
   CheckboxModule,
   RadioButtonModule,
-  CalendarModule
+  CalendarModule,
+  ConfirmDialogModule,
+  ConfirmationService
 } from 'primeng/primeng';
 import { DropdownModule } from 'primeng/components/dropdown/dropdown';
 
@@ -36,9 +38,10 @@ import { CrudService } from './crud.service';
     RadioButtonModule,
     CalendarModule,
     CoreModule,
-    CrudRoutingModule
+    CrudRoutingModule,
+    ConfirmDialogModule
   ],
   declarations: [ListComponent, FormComponent],
-  providers: [CrudService]
+  providers: [CrudService, ConfirmationService]
 })
 export class CrudDemoModule { }

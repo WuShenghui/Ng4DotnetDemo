@@ -16,7 +16,7 @@
                     Date
                 </div>
                 <div class="ui-g-8">
-                    <p-calendar name="date" [(ngModel)]="model.createdDate"></p-calendar>
+                    <p-calendar name="date" [(ngModel)]="model.date"></p-calendar>
                 </div>
             </div>
 
@@ -46,15 +46,15 @@
                 </div>
                 <div class="ui-g-8">
                     <div class="ui-g">
-                        <p-checkbox name="languages" value="en-us" [(ngModel)]="model.languages" label="English (United States)"></p-checkbox>
-                        <p-checkbox name="languages" value="en-au" [(ngModel)]="model.languages" label="English (Australia)"></p-checkbox>
-                        <p-checkbox name="languages" value="zh-cn" [(ngModel)]="model.languages" label="Chinese (PRC)"></p-checkbox>
-                        <p-checkbox name="languages" value="zh-tw" [(ngModel)]="model.languages" label="Chinese (Taiwan)"></p-checkbox>
+                        <p-checkbox name="languages" value="en-us" [(ngModel)]="selectedLanguages" label="English (United States)"></p-checkbox>
+                        <p-checkbox name="languages" value="en-au" [(ngModel)]="selectedLanguages" label="English (Australia)"></p-checkbox>
+                        <p-checkbox name="languages" value="zh-cn" [(ngModel)]="selectedLanguages" label="Chinese (PRC)"></p-checkbox>
+                        <p-checkbox name="languages" value="zh-tw" [(ngModel)]="selectedLanguages" label="Chinese (Taiwan)"></p-checkbox>
                     </div>
                 </div>
             </div>
             <div>
-                <button pButton (click)="cancel($event)" label="Cancel"></button>&nbsp;&nbsp;
+                <button pButton (click)="cancel($event)" label="Cancel" class="ui-button-secondary"></button>&nbsp;&nbsp;
                 <button type="submit" pButton [disabled]="!form.valid" label="Save"></button>
             </div>
         </form>

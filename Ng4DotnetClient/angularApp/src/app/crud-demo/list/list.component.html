@@ -1,14 +1,17 @@
 <div class="content-section content-section-body">
+    <p-confirmDialog></p-confirmDialog>
     <p-panel header="List">
         <a pButton type="button" [routerLink]="['form', '0']" label="New" icon="fa-plus"></a>
-        <button pButton type="button" label="Edit" icon="fa-edit"></button>
+        <button pButton type="button" (click)="edit()" [disabled]="!selectedItem" label="Edit" icon="fa-edit" class="ui-button-warning"></button>
+        <button pButton type="button" (click)="delete()" [disabled]="!selectedItem" label="Delete" icon="fa-trash" class="ui-button-danger"></button>
 
         <div style="margin-top:20px;">
             <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
                 <input #gb type="text" pInputText size="50" placeholder="Global Filter">
             </div>
-            <p-dataTable #dt [value]="data.items" [lazy]="true" [rows]="2" [paginator]="true" [totalRecords]="data.totalCount" (onLazyLoad)="onLazyLoad($event)" [globalFilter]="gb" scrollable="true" scrollHeight="400px" frozenWidth="400px" unfrozenWidth="580px">
+            <p-dataTable #dt [value]="data.items" [(selection)]="selectedItem" [lazy]="true" [rows]="2" [paginator]="true" [totalRecords]="data.totalCount" (onLazyLoad)="onLazyLoad($event)" [globalFilter]="gb" scrollable="true" scrollHeight="400px" frozenWidth="400px"
+                unfrozenWidth="580px">
                 <p-column [style]="{'width':'38px'}" selectionMode="multiple" frozen="true"></p-column>
                 <p-column field="id" header="Id" frozen="true" sortable="custom" (sortFunction)="sortSingle($event)" [style]="{'width':'38px'}"></p-column>
                 <p-column field="content" header="Content" frozen="true" [style]="{'width':'250px'}"></p-column>
