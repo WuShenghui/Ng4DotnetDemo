@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Routes, ActivatedRoute } from '@angular/router';
 import { ConfirmationService, Message, DataTable } from 'primeng/primeng';
 
 import { PagedResults } from '../../share/paged-results';
@@ -20,6 +20,7 @@ export class ListComponent extends PageList implements OnInit {
 
   constructor(
     private http: CrudService,
+    private route: ActivatedRoute,
     private router: Router,
     private confirmationService: ConfirmationService) {
     super();
@@ -45,7 +46,7 @@ export class ListComponent extends PageList implements OnInit {
   }
 
   edit() {
-    this.router.navigate(['form', this.selectedItem[0].id]);
+    this.router.navigate(['form', this.selectedItem[0].id], { relativeTo: this.route });
   }
 
   delete() {

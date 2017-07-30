@@ -20,7 +20,7 @@ export class CrudService {
   }
 
   public getById(id: string): Observable<CrudModel> {
-    return this.http.get<CrudModel>(`${this.config.apiUrl}/crud?id=${id}`);
+    return this.http.get<CrudModel>(`${this.config.apiUrl}/crud/${id}`);
   }
 
   public add(model: CrudModel): Observable<CrudModel> {
