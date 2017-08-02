@@ -47,6 +47,15 @@
             <div [ngClass]="{'submenushow': (crudmenutitle.id == activeMenuId), 'submenuhide': (crudmenutitle.id != activeMenuId)}">
                 <a [routerLink]="['/crud']" (click)="menuActive = false"> List</a>
             </div>
+
+            <a id="menu_canvas" #canvasmenutitle [class.active-menuitem]="canvasmenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === canvasmenutitle.id ? null : canvasmenutitle.id)">
+                <img src="assets/images/icons/charts-active.svg" class="layout-menu-icon-active" />
+                <img src="assets/images/icons/charts.svg" class="layout-menu-icon-inactive" />
+                <span>canvas</span>
+            </a>
+            <div [ngClass]="{'submenushow': (canvasmenutitle.id == activeMenuId), 'submenuhide': (canvasmenutitle.id != activeMenuId)}">
+                <a [routerLink]="['/canvas']" (click)="menuActive = false"> Demo</a>
+            </div>
         </div>
     </div>
 
