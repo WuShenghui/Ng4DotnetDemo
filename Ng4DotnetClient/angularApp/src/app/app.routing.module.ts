@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
       // { path: '', component: HomeComponent },
       { path: 'crud', loadChildren: './crud-demo/crud-demo.module#CrudDemoModule' },
       { path: 'canvas', loadChildren: './canvas/canvas.module#CanvasModule' },
+      { path: 'dynamictabs', loadChildren: './dynamic-tabs/dynamic-tabs.module#DynamicTasModule' },
     ])
   ],
   exports: [RouterModule]

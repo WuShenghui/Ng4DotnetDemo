@@ -56,6 +56,15 @@
             <div [ngClass]="{'submenushow': (canvasmenutitle.id == activeMenuId), 'submenuhide': (canvasmenutitle.id != activeMenuId)}">
                 <a [routerLink]="['/canvas']" (click)="menuActive = false"> Demo</a>
             </div>
+
+            <a id="menu_dynamictabs" #dynamictabsmenutitle [class.active-menuitem]="dynamictabsmenutitle.id == activeMenuId" (click)="activeMenuId = (activeMenuId === dynamictabsmenutitle.id ? null : dynamictabsmenutitle.id)">
+                <img src="assets/images/icons/panel-active.svg" class="layout-menu-icon-active" />
+                <img src="assets/images/icons/panel.svg" class="layout-menu-icon-inactive" />
+                <span>dynamictabs</span>
+            </a>
+            <div [ngClass]="{'submenushow': (dynamictabsmenutitle.id == activeMenuId), 'submenuhide': (dynamictabsmenutitle.id != activeMenuId)}">
+                <a [routerLink]="['/dynamictabs']" (click)="menuActive = false"> Demo</a>
+            </div>
         </div>
     </div>
 

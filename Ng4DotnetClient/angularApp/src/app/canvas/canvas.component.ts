@@ -43,7 +43,7 @@ export class CanvasComponent implements OnInit {
       top: 20,
       width: 100,
       fontSize: 20,
-      hasRotatingPoint: true 
+      hasRotatingPoint: true
     });
     this.canvas.add(text).setActiveObject(text);
     text.enterEditing();
