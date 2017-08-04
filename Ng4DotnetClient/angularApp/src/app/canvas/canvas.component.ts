@@ -37,28 +37,16 @@ export class CanvasComponent implements OnInit {
   }
 
   public type() {
-    fabric.ITextbox = fabric.util.createClass(fabric.Textbox, fabric.Observable, {
-      type: 'i-textbox',
-      initialize: function (text, options) {
-        this.ctx = fabric.util.createCanvasElement().getContext('2d');
-        this.callSuper('initialize', text, options);
-      },
-      _measureText: function (ctx, text, lineIndex, charOffset) {
-        return ctx.measureText(text).width;
-      }
-    });
-    fabric.ITextbox.fromObject = function (object) {
-      return new fabric.ITextbox(object.text, fabric.util.object.clone(object));
-    };
-    fabric.ITextbox.instances = [];
 
-    const text = new fabric.ITextbox('input here', {
+    const text = new fabric.IText('Enter text here...', {
       left: 20,
       top: 20,
       width: 100,
       fontSize: 20,
+      hasRotatingPoint: true 
     });
-    this.canvas.add(text);
+    this.canvas.add(text).setActiveObject(text);
+    text.enterEditing();
     this.updateModifications(true);
   }
 
@@ -90,7 +78,7 @@ export class CanvasComponent implements OnInit {
   }
 
   private mouseDownHandler(event, host) {
-    if (!host.isDrawingLine) return;
+    if (!host.isDrawingLine) { return; }
     host.isMouseDown = true;
     const pointer = host.canvas.getPointer(event);
     const points = [pointer.x, pointer.y, pointer.x, pointer.y];
@@ -106,15 +94,14 @@ export class CanvasComponent implements OnInit {
   }
 
   private mouseMoveHandler(event, host) {
-    if (!host.isDrawingLine || !host.isMouseDown) return;
-    var pointer = host.canvas.getPointer(event);
+    if (!host.isDrawingLine || !host.isMouseDown) { return; }
+    const pointer = host.canvas.getPointer(event);
     host.drawingObj.set({ x2: pointer.x, y2: pointer.y });
     host.canvas.renderAll();
   }
 
   /**
-   * 
-   * @param saveHistory 
+   * @param saveHistory
    * @see {@link http://fiddle.jshell.net/keyur12/evfnsy20/ }
    */
   private updateModifications(saveHistory) {

@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 
-import { CanvasComponent } from "./canvas.component";
+import { CanvasComponent } from './canvas.component';
 
 @NgModule({
   imports: [
