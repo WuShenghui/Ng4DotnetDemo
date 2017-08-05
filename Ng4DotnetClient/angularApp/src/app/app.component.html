@@ -65,6 +65,9 @@
             <div [ngClass]="{'submenushow': (dynamictabsmenutitle.id == activeMenuId), 'submenuhide': (dynamictabsmenutitle.id != activeMenuId)}">
                 <a [routerLink]="['/dynamictabs']" (click)="menuActive = false"> Demo</a>
             </div>
+            <div [ngClass]="{'submenushow': (dynamictabsmenutitle.id == activeMenuId), 'submenuhide': (dynamictabsmenutitle.id != activeMenuId)}">
+                <a [routerLink]="['/tree']" (click)="menuActive = false"> submodule tree</a>
+            </div>
         </div>
     </div>
 

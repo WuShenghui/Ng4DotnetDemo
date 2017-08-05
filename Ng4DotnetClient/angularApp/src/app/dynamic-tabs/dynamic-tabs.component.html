@@ -1,12 +1,3 @@
-<!-- <p-tabView>
-    <p-tabPanel header="Main">
-        Content Main
-    </p-tabPanel>
-    <p-tabPanel *ngFor="let tab of tabs; let i = index;" [header]="tab.header">
-        <dynamic-component [componentData]="componentData"></dynamic-component>
-    </p-tabPanel>
-</p-tabView> -->
-
 <h2 class="plunker-title"><a href="https://plnkr.co/edit/85zrrDdJoStf0mz7QIHT?p=preview">How to lazy load Angular 2 components in a TabView (PrimeNG)?</a></h2>
 <!-- <h3>
     <a href="https://stackoverflow.com/questions/44497228/dynamic-component-in-angular-2">dynamic-component-in-angular-2</a>
@@ -16,10 +7,7 @@
     <p-tabPanel header="Home" leftIcon="fa-bar-chart-o">
         <app-home-tab></app-home-tab>
     </p-tabPanel>
-    <p-tabPanel header="Tree" leftIcon="fa-sitemap">
-        <app-dynamic-container modulePath="./dynamic-tabs/modules/tree/tree.module" moduleName="TreeModule"></app-dynamic-container>
-    </p-tabPanel>
-    <p-tabPanel header="Config" leftIcon="fa-cog">
-        <app-dynamic-container modulePath="./dynamic-tabs//modules/config/config.module" moduleName="ConfigModule"></app-dynamic-container>
+    <p-tabPanel *ngFor="let tab of tabs; let i = index;" [header]="tab.header">
+        <app-dynamic-container [modulePath]="tab.modulePath" [moduleName]="tab.moduleName"></app-dynamic-container>
     </p-tabPanel>
 </p-tabView>

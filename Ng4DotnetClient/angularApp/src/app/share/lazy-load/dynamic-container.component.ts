@@ -8,7 +8,8 @@ import {
   ComponentRef,
   SystemJsNgModuleLoader
 } from '@angular/core';
-import { LazyLoadConfig } from './laza-load/lazy-load.module';
+
+import { LazyLoadConfig } from './lazy-load.module';
 
 @Component({
   selector: 'app-dynamic-container',
@@ -68,6 +69,8 @@ export class DynamicContainerComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.compRef.destroy();
+    if (this.compRef) {
+      this.compRef.destroy();
+    }
   }
 }

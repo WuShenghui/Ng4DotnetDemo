@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { MenuItem, TabPanel } from 'primeng/primeng';
-import { DynamicContainerComponent } from './dynamic-container.component';
+import { DynamicContainerComponent } from '../share/lazy-load/dynamic-container.component';
+
+class DynamicTab extends TabPanel {
+  modulePath: string;
+  moduleName: string;
+}
 
 @Component({
   selector: 'app-dynamic-tabs',
@@ -8,38 +13,56 @@ import { DynamicContainerComponent } from './dynamic-container.component';
   styleUrls: ['./dynamic-tabs.component.css']
 })
 export class DynamicTabsComponent implements OnInit {
-  tabs: TabPanel[];
+  tabs: DynamicTab[];
   @ViewChildren(DynamicContainerComponent) dynamicContainers: QueryList<DynamicContainerComponent>;
 
   constructor() { }
 
   ngOnInit() {
-    // this.tabs = [
-    //   {
-    //     header: 'tabbdfd',
-    //     selected: false,
-    //     disabled: false,
-    //     closable: true,
-    //     closed: false,
-    //     headerStyle: '',
-    //     headerStyleClass: '',
-    //     leftIcon: '',
-    //     rightIcon: '',
-    //     lazy: true
-    //   },
-    //   {
-    //     header: 'eedddd',
-    //     selected: false,
-    //     disabled: false,
-    //     closable: true,
-    //     closed: false,
-    //     headerStyle: '',
-    //     headerStyleClass: '',
-    //     leftIcon: '',
-    //     rightIcon: '',
-    //     lazy: true
-    //   }
-    // ];
+    this.tabs = [
+      {
+        header: 'Tree',
+        selected: false,
+        disabled: false,
+        closable: true,
+        closed: false,
+        headerStyle: '',
+        headerStyleClass: '',
+        leftIcon: '',
+        rightIcon: '',
+        lazy: true,
+        modulePath: './dynamic-tabs/modules/tree/tree.module',
+        moduleName: 'TreeModule'
+      },
+      {
+        header: 'Config',
+        selected: false,
+        disabled: false,
+        closable: true,
+        closed: false,
+        headerStyle: '',
+        headerStyleClass: '',
+        leftIcon: '',
+        rightIcon: '',
+        lazy: true,
+        modulePath: './dynamic-tabs/modules/config/config.module',
+        moduleName: 'ConfigModule'
+      },
+      {
+        header: 'Canvas',
+        selected: false,
+        disabled: false,
+        closable: true,
+        closed: false,
+        headerStyle: '',
+        headerStyleClass: '',
+        leftIcon: '',
+        rightIcon: '',
+        lazy: true,
+        modulePath: './canvas/canvas.module',
+        moduleName: 'CanvasModule'
+      }
+    ];
   }
 
   handleChange(e) {
