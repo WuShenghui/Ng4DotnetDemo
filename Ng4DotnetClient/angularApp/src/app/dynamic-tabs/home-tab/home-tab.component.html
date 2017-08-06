@@ -1,3 +1,7 @@
-<p>
-  home-tab works!
-</p>
+<p-dataTable [value]="items" selectionMode="single" dataKey="title">
+    <p-column field="title" header="Title">
+        <ng-template let-col let-item="rowData" pTemplate="body">
+            <span (click)="selectItem(item)">{{item[col.field]}}</span>
+        </ng-template>
+    </p-column>
+</p-dataTable>

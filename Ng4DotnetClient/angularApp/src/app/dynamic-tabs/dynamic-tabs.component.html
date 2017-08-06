@@ -3,11 +3,11 @@
     <a href="https://stackoverflow.com/questions/44497228/dynamic-component-in-angular-2">dynamic-component-in-angular-2</a>
     <a href="https://stackoverflow.com/questions/44734387/how-to-dynamically-load-the-compiled-angular-file-into-routing/44735515#44735515">How to dynamically load the compiled Angular file into routing?</a>
 </h3> -->
-<p-tabView (onChange)="handleChange($event)">
+<p-tabView (onChange)="handleChange($event)" (onClose)="handleClose($event)" [(activeIndex)]="tabIndex">
     <p-tabPanel header="Home" leftIcon="fa-bar-chart-o">
-        <app-home-tab></app-home-tab>
+        <app-home-tab (selected)="selected($event)"></app-home-tab>
     </p-tabPanel>
-    <p-tabPanel *ngFor="let tab of tabs; let i = index;" [header]="tab.header">
+    <p-tabPanel *ngFor="let tab of tabs; let i = index;" [header]="tab.header" [closable]="tab.closable">
         <app-dynamic-container [modulePath]="tab.modulePath" [moduleName]="tab.moduleName"></app-dynamic-container>
     </p-tabPanel>
 </p-tabView>

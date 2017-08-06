@@ -56,6 +56,7 @@ export class DynamicContainerComponent implements OnDestroy {
   }
 
   loadComponent() {
+    this.ngOnDestroy();
     this.moduleLoader.load(`${this.modulePath}#${this.moduleName}`)
       .then((moduleFactory: NgModuleFactory<any>) => {
         const vcRef = this.vcRef;
@@ -70,7 +71,7 @@ export class DynamicContainerComponent implements OnDestroy {
 
   ngOnDestroy() {
     if (this.compRef) {
-      this.compRef.destroy();
+      this.compRef.destroy();      
     }
   }
 }

@@ -7,9 +7,11 @@ import { DynamicTabsComponent } from './dynamic-tabs.component';
   imports: [
     RouterModule.forChild([
       { path: '', component: DynamicTabsComponent },
-      { 
-        path: 'lazyMod', 
-        loadChildren: './modules/tree/tree.module#TreeModule' }
+      {
+        path: '/dynamictabs/:newTab',
+        children: [
+          { path: '', redirectTo: '', component: DynamicTabsComponent }]
+      }
     ])
   ],
   exports: [RouterModule]
