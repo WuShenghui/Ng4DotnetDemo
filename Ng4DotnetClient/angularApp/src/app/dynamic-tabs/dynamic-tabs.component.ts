@@ -20,6 +20,7 @@ class DynamicTab extends TabPanel {
 })
 export class DynamicTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren(DynamicContainerComponent) dynamicContainers: QueryList<DynamicContainerComponent>;
+  tabs: DynamicTab[] = [];
   tabIndex = 0;
   tabBaseInfo = {
     selected: false,
@@ -32,7 +33,6 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit, OnDestroy {
     rightIcon: '',
     lazy: true,
   };
-  tabs: DynamicTab[] = [];
 
   constructor(
     private changeDetectionRef: ChangeDetectorRef,
@@ -47,7 +47,7 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.dynamicContainers.changes.subscribe(() => {
       this.tabIndex = this.tabs.length;
-      this.handleChange({ index: this.tabs.length });
+      this.handleChange({ index: this.tabIndex });
       this.changeDetectionRef.detectChanges();
     });
   }
@@ -57,44 +57,46 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private onMessageReceived = (payload: MessageSentEventPayload) => {
+    for (const tab of this.tabs) {
+      if (tab.header === 'Canvas') {
+        return;
+      }
+    }
     const tab = this.newTab({
       header: 'Canvas',
       modulePath: './canvas/canvas.module',
       moduleName: 'CanvasModule'
     });
     this.tabs.push(tab);
+    this.refreshDynamicContainer({ index: this.tabs.length });
   }
 
   selected(e) {
-    let tab;
+    const tab = new DynamicTab();
     switch (e) {
       case 'tree': {
-        tab = this.newTab({
-          header: 'Tree',
-          type: 'detail',
-          modulePath: './dynamic-tabs/modules/tree/tree.module',
-          moduleName: 'TreeModule'
-        });
+        tab.header = 'Tree';
+        tab.modulePath = './dynamic-tabs/modules/tree/tree.module';
+        tab.moduleName = 'TreeModule';
         break;
       }
       case 'config': {
-        tab = this.newTab({
-          header: 'Config',
-          type: 'detail',
-          modulePath: './dynamic-tabs/modules/config/config.module',
-          moduleName: 'ConfigModule'
-        });
+        tab.header = 'Config';
+        tab.modulePath = './dynamic-tabs/modules/config/config.module';
+        tab.moduleName = 'ConfigModule';
         break;
       }
     }
 
+    tab.type = 'detail';
+    tab.closable = true;
     if (this.tabs.length > 0 && this.tabs[0].type === 'detail') {
       this.tabs[0] = tab;
     } else {
       this.tabs.unshift(tab);
     }
 
-    this.refreshDynamicContainer({ index: 1 });
+    this.refreshDynamicContainer({ index: 0 });
   }
 
   public handleClose(e) {
