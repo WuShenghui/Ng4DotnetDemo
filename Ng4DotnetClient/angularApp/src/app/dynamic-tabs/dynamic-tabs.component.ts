@@ -1,7 +1,11 @@
-import { Component, OnInit, ViewChildren, QueryList, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem, TabPanel } from 'primeng/primeng';
+
 import { DynamicContainerComponent } from '../share/lazy-load/dynamic-container.component';
+import { EventAggregator } from '../share/event-aggregator/event.aggregator';
+import { MessageSentEvent } from '../share/event-aggregator/events/message.sent.event';
+import { MessageSentEventPayload } from '../share/event-aggregator/events/message.sent.event.payload';
 
 class DynamicTab extends TabPanel {
   type?: string;
@@ -14,7 +18,7 @@ class DynamicTab extends TabPanel {
   templateUrl: './dynamic-tabs.component.html',
   styleUrls: ['./dynamic-tabs.component.css']
 })
-export class DynamicTabsComponent implements OnInit, AfterViewInit {
+export class DynamicTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren(DynamicContainerComponent) dynamicContainers: QueryList<DynamicContainerComponent>;
   tabIndex: number = 0;
   tabBaseInfo = {
@@ -32,61 +36,36 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private changeDetectionRef: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private eventAggregator: EventAggregator
   ) { }
 
   ngOnInit() {
-    // this.tabs = [
-    //   {
-    //     header: 'Tree',
+    this.eventAggregator.getEvent(MessageSentEvent).subscribe(this.onMessageReceived);
+  }
 
-    //     modulePath: './dynamic-tabs/modules/tree/tree.module',
-    //     moduleName: 'TreeModule'
-    //   },
-    //   {
-    //     header: 'Config',
-    //     selected: false,
-    //     disabled: false,
-    //     closable: true,
-    //     closed: false,
-    //     headerStyle: '',
-    //     headerStyleClass: '',
-    //     leftIcon: '',
-    //     rightIcon: '',
-    //     lazy: true,
-    //     modulePath: './dynamic-tabs/modules/config/config.module',
-    //     moduleName: 'ConfigModule'
-    //   },
-    //   {
-    //     header: 'Canvas',
-    //     selected: false,
-    //     disabled: false,
-    //     closable: true,
-    //     closed: false,
-    //     headerStyle: '',
-    //     headerStyleClass: '',
-    //     leftIcon: '',
-    //     rightIcon: '',
-    //     lazy: true,
-    //     modulePath: './canvas/canvas.module',
-    //     moduleName: 'CanvasModule'
-    //   }
-    // ];
-
-    this.route.params.subscribe(params => {
-      if (params['newTab']) {
-        const tab = this.newTab({
-          header: 'Canvas',
-          modulePath: './canvas/canvas.module',
-          moduleName: 'CanvasModule'
-        });
-        this.tabs.push(tab);
-      }
+  ngAfterViewInit() {
+    this.dynamicContainers.changes.subscribe(() => {
+      this.tabIndex = this.tabs.length;
+      this.handleChange({ index: this.tabs.length });
+      this.changeDetectionRef.detectChanges();
     });
   }
 
-  selected(e) {debugger
-    console.log('selected', this.tabs);
+  ngOnDestroy() {
+    this.eventAggregator.getEvent(MessageSentEvent).unsubscribe(this.onMessageReceived);
+  }
+
+  private onMessageReceived = (payload: MessageSentEventPayload) => {
+    const tab = this.newTab({
+      header: 'Canvas',
+      modulePath: './canvas/canvas.module',
+      moduleName: 'CanvasModule'
+    });
+    this.tabs.push(tab);
+  }
+
+  selected(e) {
     let tab;
     switch (e) {
       case 'tree': {
@@ -119,21 +98,11 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
     this.refreshDynamicContainer({ index: 1 });
   }
 
-  ngAfterViewInit() {
-    this.dynamicContainers.changes.subscribe(() => {
-      this.tabIndex = this.tabs.length;
-      this.handleChange({ index: this.tabs.length });
-      this.changeDetectionRef.detectChanges();
-    });
-  }
-
   public handleClose(e) {
     this.tabs.splice(e.index - 1, 1);
   }
 
   public handleChange(e) {
-    console.log('handle', e);
-
     const dynamicContainer = this.dynamicContainers.toArray()[e.index - 1];
     if (!dynamicContainer || dynamicContainer.inited) { return; }
 

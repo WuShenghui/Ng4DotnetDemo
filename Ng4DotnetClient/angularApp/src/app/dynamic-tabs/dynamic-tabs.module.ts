@@ -1,6 +1,6 @@
 import { NgModule, SystemJsNgModuleLoader } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TabViewModule, DataTableModule, SharedModule } from 'primeng/primeng';
+import { TabViewModule, DataTableModule } from 'primeng/primeng';
 
 import { ShareModule } from '../share/share.module';
 import { DynamicTabsComponent } from './dynamic-tabs.component';
@@ -13,7 +13,6 @@ import { HomeTabComponent } from './home-tab/home-tab.component';
     ShareModule,
     TabViewModule,
     DataTableModule,
-    SharedModule,
     DynamicTabsRoutingModule
   ],
   providers: [SystemJsNgModuleLoader],

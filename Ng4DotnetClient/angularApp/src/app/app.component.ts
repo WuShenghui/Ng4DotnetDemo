@@ -1,4 +1,7 @@
 import { Component, trigger, state, style, transition, animate } from '@angular/core';
+import { EventAggregator } from './share/event-aggregator/event.aggregator';
+import { MessageSentEvent } from './share/event-aggregator/events/message.sent.event';
+import { MessageSentEventPayload } from './share/event-aggregator/events/message.sent.event.payload';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +24,12 @@ export class AppComponent {
   menuActive: boolean;
 
   activeMenuId: string;
+
+  constructor(private eventAggregator: EventAggregator) { }
+
+  navToDynamictabsCanvas() {
+    this.eventAggregator.getEvent(MessageSentEvent).publish(new MessageSentEventPayload('canvas'));
+  }
 
   changeTheme(event: Event, theme: string) {
     const themeLink: HTMLLinkElement = <HTMLLinkElement>document.getElementById('theme-css');

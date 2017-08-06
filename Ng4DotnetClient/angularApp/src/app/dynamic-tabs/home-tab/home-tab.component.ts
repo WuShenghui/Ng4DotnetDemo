@@ -18,7 +18,6 @@ export class HomeTabComponent implements OnInit {
   }
 
   selectItem(item) {
-    console.log(item);
     this.selected.emit(item.title);
   }
 }
