@@ -20,7 +20,7 @@ class DynamicTab extends TabPanel {
 })
 export class DynamicTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren(DynamicContainerComponent) dynamicContainers: QueryList<DynamicContainerComponent>;
-  tabIndex: number = 0;
+  tabIndex = 0;
   tabBaseInfo = {
     selected: false,
     disabled: false,
@@ -90,8 +90,7 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.tabs.length > 0 && this.tabs[0].type === 'detail') {
       this.tabs[0] = tab;
-    }
-    else {
+    } else {
       this.tabs.unshift(tab);
     }
 

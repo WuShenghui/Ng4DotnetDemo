@@ -1,17 +1,22 @@
 ﻿import { Injectable } from '@angular/core';
-import { Subject }    from 'rxjs/Subject';
-import { Subscription }   from 'rxjs/Subscription';
-import { EventBase }   from './event.base';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
+import { EventBase } from './event.base';
 
 @Injectable()
 export class EventAggregator {
+    private events: Array<[string, EventBase]> = [];
 
-    getEvent<T extends EventBase>(type: { new (): T; }): T {
+    private activator<T>(type: { new(): T; }): T {
+        return new type();
+    }
+
+    getEvent<T extends EventBase>(type: { new(): T; }): T {
         let instance: T;
 
-        //todo: lock access to event Array
+        // todo: lock access to event Array
 
-        let index = this.events.findIndex(item => item[0] === type.toLocaleString());
+        const index = this.events.findIndex(item => item[0] === type.toLocaleString());
 
         if (index > -1) {
             const eventBase: EventBase = this.events[index][1];
@@ -23,10 +28,4 @@ export class EventAggregator {
 
         return instance;
     }
-
-    private activator<T>(type: { new (): T; }): T {
-        return new type();
-    }
-
-    private events: Array<[string, EventBase]> = [];
 }

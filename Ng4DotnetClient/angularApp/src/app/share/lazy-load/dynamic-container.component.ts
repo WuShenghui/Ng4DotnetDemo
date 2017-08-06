@@ -43,13 +43,13 @@ export class DynamicContainerComponent implements OnDestroy {
   @Input() modulePath: string;
   @Input() moduleName: string;
 
-  _inited: boolean
+  _inited: boolean;
   set inited(val: boolean) {
     if (val) {
       this.loadComponent();
     }
     this._inited = val;
-  };
+  }
 
   get inited() {
     return this._inited;
@@ -71,7 +71,7 @@ export class DynamicContainerComponent implements OnDestroy {
 
   ngOnDestroy() {
     if (this.compRef) {
-      this.compRef.destroy();      
+      this.compRef.destroy();
     }
   }
 }

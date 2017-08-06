@@ -1,3 +1,3 @@
 ﻿export abstract class EventBase {
-    //Silence is Gold
+    // Silence is Gold
 }
