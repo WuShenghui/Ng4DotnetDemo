@@ -1,7 +1,7 @@
 import { Component, trigger, state, style, transition, animate } from '@angular/core';
-import { EventAggregator } from './share/event-aggregator/event.aggregator';
-import { MessageSentEvent } from './share/event-aggregator/events/message.sent.event';
-import { MessageSentEventPayload } from './share/event-aggregator/events/message.sent.event.payload';
+import { EventAggregator } from './shared/event-aggregator/event.aggregator';
+import { MessageSentEvent } from './shared/event-aggregator/events/message.sent.event';
+import { MessageSentEventPayload } from './shared/event-aggregator/events/message.sent.event.payload';
 
 @Component({
   selector: 'app-root',

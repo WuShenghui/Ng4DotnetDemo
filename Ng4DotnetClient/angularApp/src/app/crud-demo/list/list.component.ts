@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, Routes, ActivatedRoute } from '@angular/router';
 import { ConfirmationService, Message, DataTable } from 'primeng/primeng';
 
-import { PagedResults } from '../../share/paged-results';
+import { PagedResults } from '../../shared/paged-results';
 import { CrudModel } from '../crud.model';
-import { PageList } from '../../share/page-list';
+import { PageList } from '../../shared/page-list';
 import { CrudService } from '../crud.service';
 
 @Component({

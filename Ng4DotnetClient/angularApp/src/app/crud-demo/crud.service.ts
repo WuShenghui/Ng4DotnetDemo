@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { AppConfig } from '../app.config';
-import { PagedResults } from '../share/paged-results';
-import { createRequestOption } from '../share/request-util';
+import { PagedResults } from '../shared/paged-results';
+import { createRequestOption } from '../shared/request-util';
 import { CrudModel } from './crud.model';
 
 @Injectable()

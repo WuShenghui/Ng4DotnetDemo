@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChildren, QueryList, ChangeDetectorRef, AfterVie
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem, TabPanel } from 'primeng/primeng';
 
-import { DynamicContainerComponent } from '../share/lazy-load/dynamic-container.component';
-import { EventAggregator } from '../share/event-aggregator/event.aggregator';
-import { MessageSentEvent } from '../share/event-aggregator/events/message.sent.event';
-import { MessageSentEventPayload } from '../share/event-aggregator/events/message.sent.event.payload';
+import { DynamicContainerComponent } from '../shared/lazy-load/dynamic-container.component';
+import { EventAggregator } from '../shared/event-aggregator/event.aggregator';
+import { MessageSentEvent } from '../shared/event-aggregator/events/message.sent.event';
+import { MessageSentEventPayload } from '../shared/event-aggregator/events/message.sent.event.payload';
 
 class DynamicTab extends TabPanel {
   type?: string;

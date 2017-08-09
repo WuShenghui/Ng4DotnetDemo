@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ConfigComponent } from './config.component';
-import { ShareModule } from '../../../share/share.module';
-import { LazyLoadModule } from '../../../share/lazy-load/lazy-load.module';
+import { ShareModule } from '../../../shared/shared.module';
+import { LazyLoadModule } from '../../../shared/lazy-load/lazy-load.module';
 import { ConfigRoutingModule } from './config.routing.module';
 
 @NgModule({
