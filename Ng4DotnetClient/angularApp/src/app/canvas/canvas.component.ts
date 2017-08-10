@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+
+import { CanvasUtil } from '../shared/canvas-util/canvas-util';
 
 declare let fabric;
 
@@ -8,32 +10,12 @@ declare let fabric;
   styleUrls: ['./canvas.component.css']
 })
 export class CanvasComponent implements OnInit {
+  @ViewChild('canvasRef') private canvasRef: ElementRef;
   private canvas;
-  private drawingObj;
-  private state = [];
-  private mods = 0;
-  private isMouseDown = false;
-  private isDrawingLine = false;
-
   constructor() { }
 
   ngOnInit() {
-    this.canvas = new fabric.Canvas('canvas', {
-      width: 500,
-      height: 500,
-    });
-
-    this.canvas.on(
-      'object:modified', function () {
-        this.updateModifications(true);
-      },
-      'object:added', function () {
-        this.updateModifications(true);
-      });
-
-    this.canvas.__onMouseDown = (e) => this.mouseDownHandler(e, this);
-    this.canvas.__onMouseMove = (e) => this.mouseMoveHandler(e, this);
-    this.canvas.__onMouseUp = (e) => this.isMouseDown = false;
+    this.canvas = new CanvasUtil(this.canvasRef.nativeElement);
   }
 
   public type() {
@@ -47,67 +29,13 @@ export class CanvasComponent implements OnInit {
     });
     this.canvas.add(text).setActiveObject(text);
     text.enterEditing();
-    this.updateModifications(true);
   }
 
-  public line() {
-    this.isDrawingLine = true;
-    this.updateModifications(true);
-  }
+  line = () => this.canvas.drawLine();
 
-  public undo() {
-    if (this.mods < this.state.length) {
-      this.canvas.clear().renderAll();
-      this.canvas.loadFromJSON(this.state[this.state.length - 1 - this.mods - 1]);
-      this.canvas.renderAll();
-      this.mods += 1;
-    }
-  }
+  undo = () => this.canvas.undo();
 
-  public redo() {
-    if (this.mods > 0) {
-      this.canvas.clear().renderAll();
-      this.canvas.loadFromJSON(this.state[this.state.length - 1 - this.mods + 1]);
-      this.canvas.renderAll();
-      this.mods -= 1;
-    }
-  }
+  redo = () => this.canvas.redo();
 
-  public clear() {
-    this.canvas.clear().renderAll();
-  }
-
-  private mouseDownHandler(event, host) {
-    if (!host.isDrawingLine) { return; }
-    host.isMouseDown = true;
-    const pointer = host.canvas.getPointer(event);
-    const points = [pointer.x, pointer.y, pointer.x, pointer.y];
-    const line = new fabric.Line(points, {
-      strokeWidth: 5,
-      fill: 'red',
-      stroke: 'red',
-      originX: 'center',
-      originY: 'center'
-    });
-    host.canvas.add(line);
-    host.drawingObj = line;
-  }
-
-  private mouseMoveHandler(event, host) {
-    if (!host.isDrawingLine || !host.isMouseDown) { return; }
-    const pointer = host.canvas.getPointer(event);
-    host.drawingObj.set({ x2: pointer.x, y2: pointer.y });
-    host.canvas.renderAll();
-  }
-
-  /**
-   * @param saveHistory
-   * @see {@link http://fiddle.jshell.net/keyur12/evfnsy20/ }
-   */
-  private updateModifications(saveHistory) {
-    if (saveHistory === true) {
-      const history = JSON.stringify(this.canvas);
-      this.state.push(history);
-    }
-  }
+  clear = () => this.canvas.clear().renderAll();
 }
