@@ -11,11 +11,13 @@ declare let fabric;
 })
 export class CanvasComponent implements OnInit {
   @ViewChild('canvasRef') private canvasRef: ElementRef;
+  private src = '/assets/images/butterfly.jpg';
   private canvas;
   constructor() { }
 
   ngOnInit() {
     this.canvas = new CanvasUtil(this.canvasRef.nativeElement);
+    this.canvas.loadImage(this.src);
   }
 
   public type() {
@@ -30,6 +32,8 @@ export class CanvasComponent implements OnInit {
     this.canvas.add(text).setActiveObject(text);
     text.enterEditing();
   }
+
+  clip = () => this.canvas.clip();
 
   line = () => this.canvas.drawLine();
 

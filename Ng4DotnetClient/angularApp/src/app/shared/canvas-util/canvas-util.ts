@@ -10,6 +10,8 @@ export class CanvasUtil {
   private drawingShape: Shapes;
   private shapesFactory: ShapesFactory;
   private canvasHistory: CanvasHistory;
+  private imageObject: any;
+  private clipping = false;
 
   constructor(canvasElement: HTMLCanvasElement) {
     this.canvas = new fabric.Canvas(canvasElement, {});
@@ -18,12 +20,11 @@ export class CanvasUtil {
 
     this.canvas.__onMouseDown = (e) => this.mouseDownHandler(e);
     this.canvas.__onMouseMove = (e) => this.mouseMoveHandler(e);
-    this.canvas.__onMouseUp = (e) => this.isMouseDown = false;
+    this.canvas.__onMouseUp = (e) => this.mouseUpHandler(e);
   }
 
   private mouseDownHandler(event) {
-    if (!this.isMouseDown) { return; }
-
+    this.isMouseDown = true;
     const pointer = this.canvas.getPointer(event);
     this.shapesFactory.provider.get(this.drawingShape).preDraw(pointer);
   }
@@ -33,6 +34,53 @@ export class CanvasUtil {
 
     const pointer = this.canvas.getPointer(event);
     this.shapesFactory.provider.get(this.drawingShape).drawing(pointer);
+  }
+
+  private mouseUpHandler(event) {
+    this.isMouseDown = false;
+
+    if (this.clipping) {
+      this.clipping = false;
+      this.clipToRectangle();
+    }
+  }
+
+  private clipToRectangle() {
+    const drawingObj = this.shapesFactory.provider.get(this.drawingShape).drawingObj;
+
+    const left = drawingObj.left - this.imageObject.left;
+    const top = drawingObj.top - this.imageObject.top;
+
+    const width = drawingObj.width;
+    const height = drawingObj.height;
+
+    this.imageObject.clipTo = function (ctx) {
+      ctx.rect(left, top, width, height);
+    };
+    this.imageObject.selectable = true;
+    this.canvas.renderAll();
+  }
+
+  public loadImage(src: string) {
+    this.imageObject = fabric.Image.fromURL(src, (img) => {
+      img.set({
+        left: 0,
+        top: 0,
+        selectable: false
+      });
+      img.hasRotatingPoint = true;
+
+      this.imageObject = img;
+      this.canvas.add(this.imageObject);
+      this.canvas.renderAll();
+    });
+  }
+
+  public clip() {
+    this.clipping = true;
+    this.drawingShape = Shapes.ClipRectangle;
+    this.isMouseDown = true;
+    this.canvasHistory.step();
   }
 
   public drawLine() {

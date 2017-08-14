@@ -1,6 +1,7 @@
 export enum Shapes {
   Line,
   Rectangle,
+  ClipRectangle,
   Circle
 }
 
