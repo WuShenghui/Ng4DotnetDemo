@@ -4,10 +4,10 @@ export class CanvasHistory {
 
   constructor(private canvas) {
     this.canvas.on(
-      'object:modified', function () {
+      'object:modified', () => {
         this.updateModifications(true);
       },
-      'object:added', function () {
+      'object:added', () => {
         this.updateModifications(true);
       });
   }

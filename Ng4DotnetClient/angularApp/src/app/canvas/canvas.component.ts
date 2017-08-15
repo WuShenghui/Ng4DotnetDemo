@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Type } from '@angular/core';
 
 import { CanvasUtil } from '../shared/canvas-util/canvas-util';
 
@@ -20,18 +20,7 @@ export class CanvasComponent implements OnInit {
     this.canvas.loadImage(this.src);
   }
 
-  public type() {
-
-    const text = new fabric.IText('Enter text here...', {
-      left: 20,
-      top: 20,
-      width: 100,
-      fontSize: 20,
-      hasRotatingPoint: true
-    });
-    this.canvas.add(text).setActiveObject(text);
-    text.enterEditing();
-  }
+  type = () => this.canvas.type();
 
   clip = () => this.canvas.clip();
 

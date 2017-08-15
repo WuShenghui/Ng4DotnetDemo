@@ -18,22 +18,31 @@ export class CanvasUtil {
     this.shapesFactory = new ShapesFactory(this.canvas);
     this.canvasHistory = new CanvasHistory(this.canvas);
 
-    this.canvas.__onMouseDown = (e) => this.mouseDownHandler(e);
-    this.canvas.__onMouseMove = (e) => this.mouseMoveHandler(e);
-    this.canvas.__onMouseUp = (e) => this.mouseUpHandler(e);
+    this.canvas.on({
+      'mouse:down': (event) => this.mouseDownHandler(event),
+      'mouse:move': (event) => this.mouseMoveHandler(event),
+      'mouse:up': (event) => this.mouseUpHandler(event)
+    });
   }
+
+  private getPointer = (event) => this.canvas.getPointer(event.e);
 
   private mouseDownHandler(event) {
     this.isMouseDown = true;
-    const pointer = this.canvas.getPointer(event);
-    this.shapesFactory.provider.get(this.drawingShape).preDraw(pointer);
+
+    if (this.drawingShape !== null) {
+      const pointer = this.getPointer(event);
+      this.shapesFactory.provider.get(this.drawingShape).preDraw(pointer);
+    }
   }
 
   private mouseMoveHandler(event) {
     if (!this.isMouseDown) { return; }
 
-    const pointer = this.canvas.getPointer(event);
-    this.shapesFactory.provider.get(this.drawingShape).drawing(pointer);
+    if (this.drawingShape !== null) {
+      const pointer = this.getPointer(event);
+      this.shapesFactory.provider.get(this.drawingShape).drawing(pointer);
+    }
   }
 
   private mouseUpHandler(event) {
@@ -48,17 +57,35 @@ export class CanvasUtil {
   private clipToRectangle() {
     const drawingObj = this.shapesFactory.provider.get(this.drawingShape).drawingObj;
 
-    const left = drawingObj.left - this.imageObject.left;
-    const top = drawingObj.top - this.imageObject.top;
+    // const left = drawingObj.left - this.imageObject.width / 2;
+    // const top = drawingObj.top - this.imageObject.height / 2;
+    // const width = drawingObj.width;
+    // const height = drawingObj.height;
+    // this.imageObject.clipTo = function (ctx) {
+    //   ctx.rect(left, top, width, height);
+    // };
+    // this.imageObject.selectable = true;
+    // this.imageObject.strokeWidth = 0;
+    // this.canvas.remove(drawingObj);
+    // this.canvas.renderAll();
 
-    const width = drawingObj.width;
-    const height = drawingObj.height;
-
-    this.imageObject.clipTo = function (ctx) {
-      ctx.rect(left, top, width, height);
-    };
-    this.imageObject.selectable = true;
-    this.canvas.renderAll();
+    this.canvas.remove(drawingObj);
+    const cropped = new Image();
+    cropped.src = this.canvas.toDataURL({
+      left: drawingObj.left,
+      top: drawingObj.top,
+      width: drawingObj.width,
+      height: drawingObj.height
+    });
+    this.canvas.clear();
+    this.imageObject = fabric.Image.fromURL(cropped.src, (img) => {
+      img.set({
+        selectable: false
+      });
+      this.imageObject = img;
+      this.canvas.add(this.imageObject);
+      this.canvas.renderAll();
+    });
   }
 
   public loadImage(src: string) {
@@ -68,7 +95,6 @@ export class CanvasUtil {
         top: 0,
         selectable: false
       });
-      img.hasRotatingPoint = true;
 
       this.imageObject = img;
       this.canvas.add(this.imageObject);
@@ -89,7 +115,19 @@ export class CanvasUtil {
     this.canvasHistory.step();
   }
 
-  undo = () => this.canvasHistory.undo();
+  public type() {
+    const text = new fabric.IText('Enter text here...', {
+      left: 20,
+      top: 20,
+      width: 100,
+      fontSize: 20,
+      hasRotatingPoint: true
+    });
+    this.canvas.add(text).setActiveObject(text);
+    text.enterEditing();
+  }
 
-  redo = () => this.canvasHistory.redo();
+  public undo = () => this.canvasHistory.undo();
+
+  public redo = () => this.canvasHistory.redo();
 }
