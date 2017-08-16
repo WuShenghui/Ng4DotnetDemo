@@ -1,5 +1,5 @@
 export enum Shapes {
-  Line,
+  Line = 1,
   Rectangle,
   ClipRectangle,
   Circle

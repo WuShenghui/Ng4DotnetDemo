@@ -17,7 +17,7 @@ export class CanvasComponent implements OnInit {
 
   ngOnInit() {
     this.canvas = new CanvasUtil(this.canvasRef.nativeElement);
-    this.canvas.loadImage(this.src);
+    this.canvas.addImage(this.src);
   }
 
   type = () => this.canvas.type();
