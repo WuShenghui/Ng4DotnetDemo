@@ -2,7 +2,8 @@ export enum Shapes {
   Line = 1,
   Rectangle,
   ClipRectangle,
-  Circle
+  Ellipse,
+  Arrow
 }
 
 export class ClientXY {

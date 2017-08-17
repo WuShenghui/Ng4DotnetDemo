@@ -51,9 +51,12 @@ export class CanvasUtil {
     if (this.clipping) {
       this.clipping = false;
       this.clipToRectangle();
+      this.afterDone();
     }
 
-    this.afterDone();
+    if (this.drawingShape) {
+      this.shapesFactory.provider.get(this.drawingShape).postDraw();
+    }
   }
 
   private afterDone() {
@@ -113,8 +116,8 @@ export class CanvasUtil {
     this.canvasHistory.step();
   }
 
-  public drawLine() {
-    this.drawingShape = Shapes.Line;
+  public draw(shape: Shapes) {
+    this.drawingShape = shape;
     this.isMouseDown = true;
     this.canvasHistory.step();
   }
