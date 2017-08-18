@@ -1,4 +1,5 @@
-import { Shapes, ClientXY, ToolSetting } from './shapes';
+import { Shapes } from './shapes';
+import { ClientXY, ToolSetting } from './canvas-util.model';
 declare let fabric;
 
 interface DrawFactory {
