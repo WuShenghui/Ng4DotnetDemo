@@ -1,6 +1,7 @@
 import { ShapesFactory } from './shapes-factory';
 import { Shapes } from './shapes';
 import { CanvasHistory } from './canvas-history';
+import { ZoomType, ToolSetting } from './canvas-util.model';
 
 declare let fabric;
 
@@ -12,10 +13,12 @@ export class CanvasUtil {
   private canvasHistory: CanvasHistory;
   private imageObject: any;
   private clipping = false;
+  private toolSetting: ToolSetting;
 
-  constructor(canvasElement: HTMLCanvasElement) {
+  constructor(canvasElement: HTMLCanvasElement, toolSetting: ToolSetting) {
     this.canvas = new fabric.Canvas(canvasElement, {});
-    this.shapesFactory = new ShapesFactory(this.canvas);
+    this.toolSetting = toolSetting;
+    this.shapesFactory = new ShapesFactory(this.canvas, this.toolSetting);
     this.canvasHistory = new CanvasHistory(this.canvas);
 
     this.canvas.on({
@@ -23,6 +26,9 @@ export class CanvasUtil {
       'mouse:move': (event) => this.mouseMoveHandler(event),
       'mouse:up': (event) => this.mouseUpHandler(event)
     });
+    
+    this.canvas.wrapperEl.onmousewheel = (event: MouseWheelEvent) => this.mousewheelHandler(event);
+    this.canvas.upperCanvasEl.ondblclick = (event: MouseEvent) => this.dblclickHandler(event);
   }
 
   private getPointer = (event) => this.canvas.getPointer(event.e);
@@ -30,7 +36,7 @@ export class CanvasUtil {
   private mouseDownHandler(event) {
     this.isMouseDown = true;
 
-    if (this.drawingShape) {
+    if (this.drawingShape && this.isInRange(event)) {
       const pointer = this.getPointer(event);
       this.shapesFactory.provider.get(this.drawingShape).preDraw(pointer);
     }
@@ -39,7 +45,7 @@ export class CanvasUtil {
   private mouseMoveHandler(event) {
     if (!this.isMouseDown) { return; }
 
-    if (this.drawingShape) {
+    if (this.drawingShape && this.isInRange(event)) {
       const pointer = this.getPointer(event);
       this.shapesFactory.provider.get(this.drawingShape).drawing(pointer);
     }
@@ -47,29 +53,76 @@ export class CanvasUtil {
 
   private mouseUpHandler(event) {
     this.isMouseDown = false;
-
-    if (this.clipping) {
-      this.clipping = false;
-      this.clipToRectangle();
-      this.afterDone();
-    }
-
+    
     if (this.drawingShape) {
-      this.shapesFactory.provider.get(this.drawingShape).postDraw();
+      if (this.clipping) {
+        this.clipping = false;
+        this.clipToRectangle();
+        this.resetOperator();
+      } else {
+        this.shapesFactory.provider.get(this.drawingShape).postDraw();
+      }
+    }
+  }
+  
+  private mousewheelHandler(event: MouseWheelEvent) {
+    const target = this.canvas.findTarget(event);
+    const delta = event.wheelDelta / 120;
+
+    if (target) {
+      target.scaleX += delta;
+      target.scaleY += delta;
+
+      // constrain
+      if (target.scaleX < 0.1) {
+        target.scaleX = 0.1;
+        target.scaleY = 0.1;
+      }
+      // constrain
+      if (target.scaleX > 10) {
+        target.scaleX = 10;
+        target.scaleY = 10;
+      }
+      target.setCoords();
+      this.canvas.renderAll();
+      return false;
     }
   }
 
-  private afterDone() {
+  private dblclickHandler(event: MouseEvent) {
+    this.imageSelectable(false);
+
+    const eventPointer = this.canvas.getPointer(event);
+    const options = {
+      top: eventPointer.y,
+      left: eventPointer.x
+    };
+    this.addText(options);
+  }
+
+  private isInRange(event: MouseEvent) {
+    const eventPointer = this.getPointer(event);
+    return this.imageObj.containsPoint(eventPointer);
+  }
+
+  private resetOperator() {
     this.drawingShape = null;
     this.clipping = false;
   }
 
-  private loadImage(src: string, options: any) {
+  private loadImage(src: string, options: any, scaleToWidth: boolean = false) {
     this.imageObject = fabric.Image.fromURL(src, (img) => {
       img.set(options);
       this.imageObject = img;
+      
+      if (scaleToWidth) {
+        this.imageObject.scaleToWidth(this.canvas.width);
+      }
       this.canvas.add(this.imageObject);
+      this.canvas.setActiveObject(this.imageObject);
+      this.resetOperator();
       this.canvas.renderAll();
+      this.canvasHistory.step();
     });
   }
 
@@ -98,44 +151,100 @@ export class CanvasUtil {
     this.canvas.add(this.imageObject);
   }
 
+  private imageSelectable(selectable: boolean) {
+    this.imageObj.selectable = selectable;
+    this.imageObj.evented = selectable;
+    this.imageObj.lockMovementX = !selectable;
+    this.imageObj.lockMovementY = !selectable;
+    this.imageObj.lockRotation = !selectable;
+    this.imageObj.lockScalingX = !selectable;
+    this.imageObj.lockScalingY = !selectable;
+    this.imageObj.lockUniScaling = !selectable;
+    this.imageObj.hasControls = selectable;
+    this.imageObj.hasBorders = selectable;
+  }
+  
+  private addText(options?: any) {
+    const baseOptions = {
+      left: 50,
+      top: 50,
+      width: 100,
+      fontSize: 40,
+      fill: this.toolSetting.color
+    };
+
+    const text = new fabric.IText('input here', Object.assign({}, baseOptions, (options || {})));
+    this.canvas.setActiveObject(text);
+    text.selectAll();
+    text.enterEditing();
+    this.canvas.add(text);
+    this.canvasHistory.step();
+  }
+  
   public addImage(src: string) {
     const options = {
       left: 0,
       top: 0,
       selectable: false
     };
-    this.loadImage(src, options);
+    this.loadImage(src, options, true);
   }
 
   public clip() {
-    this.groupAllObjects();
-    this.imageObject.selectable = false;
-    this.clipping = true;
-    this.isMouseDown = true;
     this.drawingShape = Shapes.ClipRectangle;
-    this.canvasHistory.step();
+    this.groupAllObjects();
+    this.imageSelectable(false);
+    this.clipping = true;
   }
 
   public draw(shape: Shapes) {
     this.drawingShape = shape;
-    this.isMouseDown = true;
-    this.canvasHistory.step();
+    this.groupAllObjects();
+    this.imageSelectable(false);
+  }
+
+  public previewResult() {
+    this.groupAllObjects();
+    this.resetOperator();
+    return this.imageObj.toDataURL('png');
   }
 
   public type() {
-    const text = new fabric.IText('Enter text here...', {
-      left: 20,
-      top: 20,
-      width: 100,
-      fontSize: 40,
-      fill: '#FFFCF2'
-    });
-    this.canvas.add(text).setActiveObject(text);
-    text.enterEditing();
-    text.selectAll();
+    this.addText();
+    this.resetOperator();
   }
 
-  public undo = () => this.canvasHistory.undo();
+  public rotate(angleOffset: number) {
+    this.groupAllObjects();
+    const angle = this.imageObj.angle + angleOffset;
+    this.imageObj.setAngle(angle).setCoords();
+    this.canvas.renderAll();
+    this.canvasHistory.step();
+    this.resetOperator();
+  }
 
-  public redo = () => this.canvasHistory.redo();
+  public zoom(type: ZoomType) {
+    switch (type) {
+      case ZoomType.ZoomIn: {
+        this.canvas.setZoom(this.canvas.getZoom() * 1.5);
+        break;
+      }
+      default: {
+        this.canvas.setZoom(this.canvas.getZoom() / 1.5);
+        break;
+      }
+    }
+    this.canvasHistory.step();
+    this.resetOperator();
+  }
+
+  public undo() {
+    this.canvasHistory.undo();
+    this.resetOperator();
+  }
+
+  public redo() {
+    this.canvasHistory.redo();
+    this.resetOperator();
+  }
 }
