@@ -10,3 +10,8 @@ export class ClientXY {
   x: number;
   y: number;
 }
+
+export interface ToolSetting {
+    color: string;
+    strokeWidth: number;
+}
