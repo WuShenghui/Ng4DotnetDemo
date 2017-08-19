@@ -1,11 +1,20 @@
-<div>
-    <button type="button" (click)="clip()"><i class="fa fa-crop" aria-hidden="true"></i></button>
-    <button type="button" (click)="type()"><i class="fa fa-text-width" aria-hidden="true"></i></button>
-    <button type="button" (click)="draw(1)"><i class="fa fa-minus" aria-hidden="true"></i></button>
-    <button type="button" (click)="draw(4)"><i class="fa fa-circle-o" aria-hidden="true"></i></button>
-    <button type="button" (click)="draw(5)"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-    <button type="button" (click)="undo()"><i class="fa fa-undo" aria-hidden="true"></i></button>
-    <button type="button" (click)="redo()"><i class="fa fa-repeat" aria-hidden="true"></i></button>
-    <button type="button" (click)="clear()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+<div id="tools">
+    <ul>
+        <li>
+            <p-colorPicker [(ngModel)]="toolSetting.color"></p-colorPicker>
+        </li>
+        <li>
+            <p-dropdown [options]="strokeWidthList" [(ngModel)]="toolSetting.strokeWidth"></p-dropdown>
+        </li>
+        <li><a (click)="clip()" title="clip"><i class="fa fa-lg fa-crop" aria-hidden="true"></i></a></li>
+        <li><a (click)="type()" title="type"><i class="fa fa-lg fa-text-width" aria-hidden="true"></i></a></li>
+        <li><a (click)="draw(1)" title="line"><i class="fa fa-lg fa-minus" aria-hidden="true"></i></a></li>
+        <li><a (click)="draw(4)" title="ellipse"><i class="fa fa-lg fa-circle-o" aria-hidden="true"></i></a></li>
+        <li><a (click)="draw(5)" title="arrow"><i class="fa fa-lg fa-arrow-right" aria-hidden="true"></i></a></li>
+        <li><a (click)="undo()" title="undo"><i class="fa fa-lg fa-undo" aria-hidden="true"></i></a></li>
+        <li><a (click)="redo()" title="redo"><i class="fa fa-lg fa-repeat" aria-hidden="true"></i></a></li>
+        <li><a (click)="clear()" title="clear"><i class="fa fa-lg fa-trash" aria-hidden="true"></i></a></li>
+        <li><a (click)="preview()" title="preview"><i class="fa fa-lg fa-eye" aria-hidden="true"></i></a></li>
+    </ul>
 </div>
 <canvas #canvasRef id="canvas" width="500" height="500"></canvas>

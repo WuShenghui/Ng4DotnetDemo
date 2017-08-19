@@ -3,5 +3,6 @@ export enum Shapes {
   Rectangle,
   ClipRectangle,
   Ellipse,
-  Arrow
+  Arrow,
+  Circle
 }

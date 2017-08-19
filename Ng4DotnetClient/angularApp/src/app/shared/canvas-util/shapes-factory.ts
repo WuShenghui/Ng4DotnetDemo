@@ -200,72 +200,75 @@ class Ellipse extends ShapesProvider {
 }
 
 class Circle extends ShapesProvider {
-    private startPointer: ClientXY;
-    public preDraw(position: ClientXY) {
-        this.startPointer = position;
-        this.drawingObj = new fabric.Circle({
-            left: position.x,
-            top: position.y,
-            originX: 'left',
-            originY: 'top',
-            radius: 0,
-            angle: 0,
-            fill: '',
-            stroke: this.toolSetting.color,
-            strokeWidth: this.toolSetting.strokeWidth,
-        });
-        this.canvas.add(this.drawingObj);
+  private startPointer: ClientXY;
+  public preDraw(position: ClientXY) {
+    this.startPointer = position;
+    this.drawingObj = new fabric.Circle({
+      left: position.x,
+      top: position.y,
+      originX: 'left',
+      originY: 'top',
+      radius: 0,
+      angle: 0,
+      fill: '',
+      stroke: this.toolSetting.color,
+      strokeWidth: this.toolSetting.strokeWidth,
+    });
+    this.canvas.add(this.drawingObj);
+  }
+
+  public drawing(currentPointer: ClientXY): void {
+    let radiusVal = Math.max(Math.abs(this.startPointer.y - currentPointer.y), Math.abs(this.startPointer.x - currentPointer.x)) / 2;
+    if (radiusVal > this.drawingObj.strokeWidth) {
+      radiusVal -= this.drawingObj.strokeWidth / 2;
+    }
+    this.drawingObj.set({ radius: radiusVal });
+
+    if (this.startPointer.x > currentPointer.x) {
+      this.drawingObj.set({ originX: 'right' });
+    } else {
+      this.drawingObj.set({ originX: 'left' });
     }
 
-    public drawing(currentPointer: ClientXY): void {
-        let radiusVal = Math.max(Math.abs(this.startPointer.y - currentPointer.y), Math.abs(this.startPointer.x - currentPointer.x)) / 2;
-        if (radiusVal > this.drawingObj.strokeWidth) {
-            radiusVal -= this.drawingObj.strokeWidth / 2;
-        }
-        this.drawingObj.set({ radius: radiusVal });
-
-        if (this.startPointer.x > currentPointer.x) {
-            this.drawingObj.set({ originX: 'right' });
-        } else {
-            this.drawingObj.set({ originX: 'left' });
-        }
-        if (this.startPointer.y > currentPointer.y) {
-            this.drawingObj.set({ originY: 'bottom' });
-        } else {
-            this.drawingObj.set({ originY: 'top' });
-        }
+    if (this.startPointer.y > currentPointer.y) {
+      this.drawingObj.set({ originY: 'bottom' });
+    } else {
+      this.drawingObj.set({ originY: 'top' });
     }
+
+    this.canvas.renderAll();
+  }
 }
 
 class Rectangle extends ShapesProvider {
-    private startPointer: ClientXY;
-    public preDraw(position: ClientXY) {
-        this.startPointer = position;
+  private startPointer: ClientXY;
+  public preDraw(position: ClientXY) {
+    this.startPointer = position;
 
-        this.drawingObj = new fabric.Rect({
-            left: position.x,
-            top: position.y,
-            width: 0,
-            height: 0,
-            stroke: this.toolSetting.color,
-            strokeWidth: this.toolSetting.strokeWidth,
-            fill: ''
-        });
+    this.drawingObj = new fabric.Rect({
+      left: position.x,
+      top: position.y,
+      width: 0,
+      height: 0,
+      stroke: this.toolSetting.color,
+      strokeWidth: this.toolSetting.strokeWidth,
+      fill: ''
+    });
 
-        this.canvas.add(this.drawingObj);
+    this.canvas.add(this.drawingObj);
+  }
+
+  public drawing(currentPointer: ClientXY): void {
+    if (this.startPointer.x > currentPointer.x) {
+      this.drawingObj.set({ left: Math.abs(currentPointer.x) });
+    }
+    if (this.startPointer.y > currentPointer.y) {
+      this.drawingObj.set({ top: Math.abs(currentPointer.y) });
     }
 
-    public drawing(currentPointer: ClientXY): void {
-        if (this.startPointer.x > currentPointer.x) {
-            this.drawingObj.set({ left: Math.abs(currentPointer.x) });
-        }
-        if (this.startPointer.y > currentPointer.y) {
-            this.drawingObj.set({ top: Math.abs(currentPointer.y) });
-        }
+    this.drawingObj.set({ width: Math.abs(this.startPointer.x - currentPointer.x) });
+    this.drawingObj.set({ height: Math.abs(this.startPointer.y - currentPointer.y) });
 
-        this.drawingObj.set({ width: Math.abs(this.startPointer.x - currentPointer.x) });
-        this.drawingObj.set({ height: Math.abs(this.startPointer.y - currentPointer.y) });
-
-        this.canvas.renderAll();
-    }
+    this.canvas.renderAll();
+  }
 }

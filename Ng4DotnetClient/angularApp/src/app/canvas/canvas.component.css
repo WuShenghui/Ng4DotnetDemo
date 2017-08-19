@@ -1,3 +1,18 @@
 canvas {
     background: #eee;
 }
+
+#tools ul {
+    list-style: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+#tools ul li {
+    display: inline;
+    padding: 0 2px;
+}
+
+#tools ul li a:hover {
+    color: #dddddd;
+}
