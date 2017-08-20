@@ -6,7 +6,6 @@ import { MenuItem } from 'primeng/components/common/api';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
-import { AppConfig } from './app.config';
 import { ShareModule } from './shared/shared.module';
 
 @NgModule({
@@ -20,7 +19,7 @@ import { ShareModule } from './shared/shared.module';
     BrowserAnimationsModule,
     ShareModule.forRoot()
   ],
-  providers: [AppConfig],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -16,7 +16,7 @@ export class CanvasComponent implements OnInit {
   @ViewChild('canvasRef') private canvasRef: ElementRef;
   private src = '/assets/images/butterfly.jpg';
   private canvas;
-  private toolSetting: ToolSetting = { color: '#1b82d7', strokeWidth: 3 };
+  public toolSetting: ToolSetting = { color: '#1b82d7', strokeWidth: 3 };
   public strokeWidthList: SelectItem[] = [
     { label: '4px', value: 4 },
     { label: '6px', value: 6 },
