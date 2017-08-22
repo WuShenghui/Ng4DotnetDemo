@@ -47,6 +47,7 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.dynamicContainers.changes.subscribe(() => {
       this.tabIndex = this.tabs.length;
+      
       this.handleChange({ index: this.tabIndex });
       this.changeDetectionRef.detectChanges();
     });
@@ -72,24 +73,30 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   selected(e) {
-    const tab = new DynamicTab();
+    let tab = new DynamicTab();
     switch (e) {
       case 'tree': {
-        tab.header = 'Tree';
-        tab.modulePath = './dynamic-tabs/modules/tree/tree.module';
-        tab.moduleName = 'TreeModule';
+        tab = this.newTab({
+          type: 'detail',
+          closable: true,
+          header: 'Tree',
+          modulePath: './dynamic-tabs/modules/tree/tree.module',
+          moduleName: 'TreeModule'
+        });
         break;
       }
       case 'config': {
-        tab.header = 'Config';
-        tab.modulePath = './dynamic-tabs/modules/config/config.module';
-        tab.moduleName = 'ConfigModule';
+        tab = this.newTab({
+          type: 'detail',
+          closable: true,
+          header: 'Config',
+          modulePath: './dynamic-tabs/modules/config/config.module',
+          moduleName: 'ConfigModule'
+        });
         break;
       }
     }
 
-    tab.type = 'detail';
-    tab.closable = true;
     if (this.tabs.length > 0 && this.tabs[0].type === 'detail') {
       this.tabs[0] = tab;
     } else {
@@ -123,6 +130,6 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private newTab(tabInfo) {
-    return Object.assign(this.tabBaseInfo, tabInfo);
+    return Object.assign({}, this.tabBaseInfo, tabInfo);
   }
 }
