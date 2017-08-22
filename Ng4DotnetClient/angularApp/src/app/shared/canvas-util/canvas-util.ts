@@ -61,6 +61,7 @@ export class CanvasUtil {
         this.resetOperator();
       } else {
         this.shapesFactory.provider.get(this.drawingShape).postDraw();
+        this.canvasHistory.step();
       }
     }
   }
