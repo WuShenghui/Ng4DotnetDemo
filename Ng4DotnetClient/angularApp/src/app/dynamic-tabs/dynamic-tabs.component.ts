@@ -47,7 +47,7 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.dynamicContainers.changes.subscribe(() => {
       this.tabIndex = this.tabs.length;
-      
+
       this.handleChange({ index: this.tabIndex });
       this.changeDetectionRef.detectChanges();
     });
