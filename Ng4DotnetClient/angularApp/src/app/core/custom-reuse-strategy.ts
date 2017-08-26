@@ -1,6 +1,7 @@
 /**
  * reuse-strategy.ts
  * by corbfon 1/6/17
+ * @see: https://stackoverflow.com/a/41515648
  */
 
 import { ActivatedRouteSnapshot, RouteReuseStrategy, DetachedRouteHandle } from '@angular/router';
