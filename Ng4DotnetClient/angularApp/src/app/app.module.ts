@@ -7,6 +7,7 @@ import { MenuItem } from 'primeng/components/common/api';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
 import { ShareModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ShareModule } from './shared/shared.module';
     AccordionModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    CoreModule,
     ShareModule.forRoot()
   ],
   providers: [],
