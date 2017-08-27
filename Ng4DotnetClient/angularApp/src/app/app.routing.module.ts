@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
     RouterModule.forRoot([
       // { path: '', component: HomeComponent },
       { path: 'crud', loadChildren: './crud-demo/crud-demo.module#CrudDemoModule' },
+      { path: 'tree-demo', loadChildren: './tree-demo/tree-demo.module#TreeDemoModule' },
       { path: 'canvas', loadChildren: './canvas/canvas.module#CanvasModule' },
       { path: 'dynamictabs', loadChildren: './dynamic-tabs/dynamic-tabs.module#DynamicTasModule' },
       { path: 'dynamictabs/:newTab', loadChildren: './dynamic-tabs/dynamic-tabs.module#DynamicTasModule' },
