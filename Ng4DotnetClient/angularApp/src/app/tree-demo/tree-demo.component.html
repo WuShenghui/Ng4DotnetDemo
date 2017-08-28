@@ -9,18 +9,6 @@
 </p-tree>
 <p-contextMenu #cm [model]="items"></p-contextMenu>
 
-<p-fileUpload #fileUpload name="myfile[]" url="http://localhost:5000/api/upload" (onUpload)="onUpload($event)" multiple="multiple" accept="image/*">
-    <ng-template let-file let-i="index" pTemplate="file">
-        <div class="ui-fileupload-row">
-            <div><img [src]="file.objectURL" *ngIf="fileUpload.isImage(file)" [width]="fileUpload.previewWidth" /></div>
-            <div>{{file.name}}</div>
-            <div>{{fileUpload.formatSize(file.size)}}</div>
-            <div><button type="button" icon="fa-close" pButton (click)="fileUpload.remove(i)"></button></div>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="content">
-        <ul *ngIf="uploadedFiles.length">
-            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-        </ul>
-    </ng-template>
-</p-fileUpload>
+<p-dialog header="upload" [(visible)]="display">
+    <app-upload [url]="uploadOptions.url" [multiple]="uploadOptions.multiple" [accept]="uploadOptions.accept" [maxFileSize]="uploadOptions.maxFileSize"></app-upload>
+</p-dialog>

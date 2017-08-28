@@ -19,7 +19,22 @@ export class TreeDemoComponent implements OnInit {
 
   isRename: boolean;
 
-  uploadedFiles: any[] = [];
+  display = false;
+
+  uploadOptions = {
+    url: 'http://localhost:5000/api/upload',
+    multiple: '',
+    accept: '.png',
+    maxFileSize: 10
+  };
+
+  contextMenu1 = [
+    { label: 'Rename', icon: 'fa-close', command: (event) => this.rename(this.selectedFile) }
+  ];
+
+  contextMenu2 = [
+    { label: 'Upload', icon: 'fa-close', command: (event) => this.upload(this.selectedFile) }
+  ];
 
   constructor(private nodeService: NodeService) { }
 
@@ -27,28 +42,34 @@ export class TreeDemoComponent implements OnInit {
     this.nodeService.getFiles()
       .subscribe(files => this.files = files.data);
 
-    this.items = [
-      { label: 'Rename', icon: 'fa-close', command: (event) => this.rename(this.selectedFile) }
-    ];
+    this.items = this.contextMenu1;
   }
 
   nodeSelect(event) {
     // event.node = selected node
     console.log('onNodeSelect..', event, this.files);
+    this.items = event.node.data === 'Movies Folder'
+      ? this.contextMenu1
+      : this.contextMenu2;
   }
 
   nodeUnselect(event) {
     console.log('onNodeUnselect..', event);
   }
 
-  onUpload(event) {
-    for (const file of event.files) {
-      this.uploadedFiles.push(file);
-    }
-  }
-
   private rename(selectedFile) {
     this.isRename = true;
     console.log(selectedFile);
+  }
+
+  private upload(selectedFile) {
+    this.display = true;
+
+    this.uploadOptions.accept = selectedFile.data === 'Movies Folder'
+      ? '.jpg'
+      : '.png';
+    this.uploadOptions.multiple = selectedFile.data === 'Movies Folder'
+      ? 'multiple'
+      : '';
   }
 }
