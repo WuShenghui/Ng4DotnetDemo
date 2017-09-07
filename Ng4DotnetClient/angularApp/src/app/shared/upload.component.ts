@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FileUpload } from 'primeng/primeng';
 import { Observable } from 'rxjs/Observable';
 
@@ -11,8 +11,10 @@ import { Observable } from 'rxjs/Observable';
         [accept]="accept"
         [maxFileSize]="maxFileSize"
         [auto]="auto"
+        [customUpload]="customUpload"
         (onUpload)="onUpload($event)"
-        (onSelect)="onSelect($event)">
+        (onSelect)="onSelect($event)"
+        (uploadHandler)="customUploadHandler($event)">
       <ng-template let-file let-i="index" pTemplate="file">
           <div class="ui-fileupload-row">
               <div><img [src]="file.objectURL" *ngIf="fileUpload.isImage(file)" [width]="fileUpload.previewWidth" /></div>
@@ -45,6 +47,10 @@ export class UploadComponent {
 
   @Input() fileLimit = 1;
 
+  @Input() customUpload = false;
+
+  @Output() uploadHandler: EventEmitter<any> = new EventEmitter();
+
   uploadedFiles: any[] = [];
 
   onUpload(event) {
@@ -54,8 +60,14 @@ export class UploadComponent {
   onSelect(event) {
     if (event.files && event.files.length + this.uploadedFiles.length > this.fileLimit) {
       console.log(`more than ${this.fileLimit} ..`);
+    }
+  }
 
-      return;
+  customUploadHandler(event) {
+    if (this.customUpload) {
+      this.uploadHandler.emit({
+        files: event.files
+      });
     }
   }
 }

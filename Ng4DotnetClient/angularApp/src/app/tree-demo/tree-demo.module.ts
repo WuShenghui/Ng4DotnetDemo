@@ -6,6 +6,7 @@ import { TreeDemoComponent } from './tree-demo.component';
 import { TreeDemoRoutingModule } from './tree-demo.routing.module';
 import { NodeService } from './node.service';
 import { ShareModule } from '../shared/shared.module';
+import { FilesService } from './upload/files.service';
 
 @NgModule({
   imports: [
@@ -18,6 +19,9 @@ import { ShareModule } from '../shared/shared.module';
     TreeDemoRoutingModule
   ],
   declarations: [TreeDemoComponent],
-  providers: [NodeService]
+  providers: [
+    NodeService,
+    FilesService
+  ]
 })
 export class TreeDemoModule { }

@@ -10,5 +10,6 @@
 <p-contextMenu #cm [model]="items"></p-contextMenu>
 
 <p-dialog header="upload" [(visible)]="display">
-    <app-upload [url]="uploadOptions.url" [multiple]="uploadOptions.multiple" [accept]="uploadOptions.accept" [maxFileSize]="uploadOptions.maxFileSize"></app-upload>
+    <!-- <app-upload [url]="uploadOptions.url" [multiple]="uploadOptions.multiple" [accept]="uploadOptions.accept" [maxFileSize]="uploadOptions.maxFileSize"></app-upload> -->
+    <app-upload [multiple]="uploadOptions.multiple" [accept]="uploadOptions.accept" [maxFileSize]="uploadOptions.maxFileSize" [customUpload]="true" (uploadHandler)="uploadHandler($event)"></app-upload>
 </p-dialog>

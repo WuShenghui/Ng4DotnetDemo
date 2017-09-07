@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TreeNode, FileUpload } from 'primeng/primeng';
 import { Observable } from 'rxjs/Observable';
 import { NodeService } from './node.service';
+import { FilesService } from './upload/files.service';
 
 @Component({
   selector: 'app-tree-demo',
@@ -23,9 +24,9 @@ export class TreeDemoComponent implements OnInit {
 
   uploadOptions = {
     url: 'http://localhost:5000/api/upload',
-    multiple: '',
+    multiple: 'multiple',
     accept: '.png',
-    maxFileSize: 10
+    maxFileSize: 1024000
   };
 
   contextMenu1 = [
@@ -36,7 +37,7 @@ export class TreeDemoComponent implements OnInit {
     { label: 'Upload', icon: 'fa-close', command: (event) => this.upload(this.selectedFile) }
   ];
 
-  constructor(private nodeService: NodeService) { }
+  constructor(private nodeService: NodeService, private filesService: FilesService) { }
 
   ngOnInit() {
     this.nodeService.getFiles()
@@ -55,6 +56,11 @@ export class TreeDemoComponent implements OnInit {
 
   nodeUnselect(event) {
     console.log('onNodeUnselect..', event);
+  }
+
+  uploadHandler(event) {
+    console.log(event.files);
+    this.filesService.upload({ files: event.files }).subscribe();
   }
 
   private rename(selectedFile) {
