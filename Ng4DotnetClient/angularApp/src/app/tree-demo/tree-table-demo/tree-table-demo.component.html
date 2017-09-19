@@ -1,0 +1,18 @@
+<p-treeTable [value]="files" [style]="{'margin-top':'50px'}">
+    <p-header>Editable Cells with Templating</p-header>
+    <p-column field="name" header="Name">
+        <ng-template let-node="rowData" pTemplate="body">
+            <input type="text" [(ngModel)]="node.data.name" [disabled]="node.data.type === 'Folder'" style="width:100%;border-width:0px 0px 1px 0px">
+        </ng-template>
+    </p-column>
+    <p-column field="size" header="Size (kb)">
+        <ng-template let-node="rowData" pTemplate="body">
+            <input type="number" [(ngModel)]="node.data.size" [disabled]="node.data.type === 'Folder'" (blur)="sizeChanged($event, node)" style="width:100%;border-width:0px 0px 1px 0px">
+        </ng-template>
+    </p-column>
+    <p-column field="type" header="Type">
+        <ng-template let-node="rowData" pTemplate="body">
+            <input type="text" [(ngModel)]="node.data.type" [disabled]="node.data.type === 'Folder'" style="width:100%;border-width:0px 0px 1px 0px">
+        </ng-template>
+    </p-column>
+</p-treeTable>

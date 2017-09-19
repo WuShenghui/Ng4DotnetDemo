@@ -1,24 +1,38 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TreeModule, ContextMenuModule, FileUploadModule, DialogModule } from 'primeng/primeng';
+import {
+  TreeModule,
+  ContextMenuModule,
+  FileUploadModule,
+  DialogModule,
+  TreeTableModule,
+  TreeNode,
+  SharedModule
+} from 'primeng/primeng';
 import { TreeDemoComponent } from './tree-demo.component';
 import { TreeDemoRoutingModule } from './tree-demo.routing.module';
 import { NodeService } from './node.service';
 import { ShareModule } from '../shared/shared.module';
 import { FilesService } from './upload/files.service';
+import { TreeTableDemoComponent } from './tree-table-demo/tree-table-demo.component';
 
 @NgModule({
   imports: [
-    ShareModule,
+    SharedModule,
     CommonModule,
     FormsModule,
     TreeModule,
     ContextMenuModule,
     DialogModule,
-    TreeDemoRoutingModule
+    TreeTableModule,
+    TreeDemoRoutingModule,
+    ShareModule,
   ],
-  declarations: [TreeDemoComponent],
+  declarations: [
+    TreeDemoComponent,
+    TreeTableDemoComponent
+  ],
   providers: [
     NodeService,
     FilesService
