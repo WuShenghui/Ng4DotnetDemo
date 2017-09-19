@@ -128,7 +128,7 @@ export class CanvasUtil {
       this.resetOperator();
       this.canvas.renderAll();
       this.canvasHistory.step();
-    });
+    }, { crossOrigin: 'Anonymous' });
   }
 
   private clipToRectangle() {
@@ -193,6 +193,29 @@ export class CanvasUtil {
       selectable: true
     };
     this.loadImage(src, options, true);
+  }
+  
+  /**
+   * paste image to canvas
+   *
+   * @param {*} event - paste event
+   * @memberof PhotoEditor
+   * @example
+   *      window.addEventListener('paste', (e: any) => this.photoEditor.pasteImage(e));
+   */
+  public pasteImage(event: any) {
+      const items = (event.clipboardData || (<any>event).originalEvent.clipboardData).items;
+      let pasteFile;
+      for (const i of items) {
+          if (i.type.indexOf('image') === 0) {
+              pasteFile = i.getAsFile();
+          }
+      }
+      if (pasteFile) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => this.addImage(e.target.result);
+          reader.readAsDataURL(pasteFile);
+      }
   }
 
   public clip() {
