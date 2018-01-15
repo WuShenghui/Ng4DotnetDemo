@@ -234,7 +234,15 @@ export class CanvasUtil {
   public previewResult() {
     this.groupAllObjects();
     this.resetOperator();
-    return this.imageObject.toDataURL('png');
+
+    const originImageCanvas = new fabric.Canvas();
+    this.imageObject.padding = 0;
+    originImageCanvas.setHeight(this.imageObject.height);
+    originImageCanvas.setWidth(this.imageObject.width);
+    originImageCanvas.add(this.imageObject);
+    originImageCanvas.centerObject(this.imageObject);
+    originImageCanvas.renderAll();
+    return originImageCanvas.toDataURL('png');
   }
 
   public type() {
